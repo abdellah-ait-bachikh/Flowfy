@@ -1,0 +1,66 @@
+{
+  "tabs": {
+    "home": "الرئيسية",
+    "search": "بحث",
+    "bag": "السلة",
+    "notifications": "الإشعارات",
+    "profile": "حسابي"
+  },
+  "screens": {
+    
+      "index": {
+        "title": "الصفحة الرئيسية الترحيبية",
+        "explor_app": "استكشف التطبيق"
+      }
+    ,
+    "(tabs)": {
+      "index": {
+        "title": "الصفحة الرئيسية للألسنة",
+        "btn_search_placehaulder": "ابحث عن طعام أو منتجات أو أي شيء آخر...",
+        "horizontal_categories_scroll": {
+          "title": "الفئات",
+          "name": {
+            "restaurant": "مطاعم",
+            "supermarket": "سوبرماركات",
+            "custom": "مخصصات"
+          },
+          "description": {
+            "restaurant": "وجبات سريعة وماكولات",
+            "supermarket": "البقالة، المواد الأساسية، الفواكه والخضروات",
+            "custom": "الأدوية ومنتجات الصحة والطلبات المتخصصة"
+          }
+        },
+        "horizontal_restaurant_scroll": {
+          "title": "مطاعم",
+          "more": "المزيد",
+          "items": {
+            "offers": "عروض"
+          }
+        },
+        "top_snackes": {
+          "title": "شائع",
+          "more": "المزيد",
+          "items": {
+            "offers": "عروض"
+          }
+        }
+      },
+      "search": {
+        "title": "صفحة البحث",
+        "btn_search_placehaulder": "ابحث عن طعام أو منتجات أو أي شيء آخر..."
+      },
+      "bag": { "title": "صفحة الحقيبة" },
+      "notifications": { "title": "صفحة الإشعارات" },
+      "profile": {
+        "index": { "title": "صفحة الملف الشخصي" },
+        "details": {
+          "index": { "title": "تفاصيل الملف" },
+          "orders": {
+            "index": { "title": "الطلبات" },
+            "details": { "title": "تفاصيل الطلب" }
+          }
+        }
+      }
+    }
+  }
+}

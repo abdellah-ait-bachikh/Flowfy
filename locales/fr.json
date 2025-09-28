@@ -1,0 +1,66 @@
+{
+  "tabs": {
+    "home": "Accueil",
+    "search": "Recherche",
+    "bag": "Panier",
+    "notifications": "Notifications",
+    "profile": "Profil"
+  },
+  "screens": {
+   
+      "index": {
+        "title": "Page d'accueil principale",
+        "explor_app": "Explorer l'application"
+      }
+    ,
+    "(tabs)": {
+      "index": {
+        "title": "Page d'accueil des onglets",
+        "btn_search_placehaulder": "Rechercher des plats ou produits...",
+        "horizontal_categories_scroll": {
+          "title": "Catégories",
+          "name": {
+            "restaurant": "Restaurants",
+            "supermarket": "Supermarchés",
+            "custom": "Commandes spéciales"
+          },
+          "description": {
+            "restaurant": "Restauration rapide & repas",
+            "supermarket": "Épicerie, produits de base, fruits & légumes",
+            "custom": "Médicaments, produits de santé & commandes spécialisées"
+          }
+        },
+        "horizontal_restaurant_scroll": {
+          "title": "Restaurants",
+          "more": "Plus",
+          "items": {
+            "offers": "offres"
+          }
+        },"top_snackes": {
+  "title": "Populaire",
+  "more": "Plus",
+  "items": {
+    "offers": "offres"
+  }
+}
+
+      },
+      "search": {
+        "title": "Page de recherche",
+        "btn_search_placehaulder": "Rechercher des plats ou produits..."
+      },
+      "bag": { "title": "Page du panier" },
+      "notifications": { "title": "Page des notifications" },
+      "profile": {
+        "index": { "title": "Page de profil" },
+        "details": {
+          "index": { "title": "Détails du profil" },
+          "orders": {
+            "index": { "title": "Commandes" },
+            "details": { "title": "Détails de la commande" }
+          }
+        }
+      }
+    }
+  }
+}

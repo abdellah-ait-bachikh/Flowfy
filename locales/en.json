@@ -1,0 +1,56 @@
+{
+  "tabs": {
+    "home": "Home",
+    "search": "Search",
+    "bag": "Bag",
+    "notifications": "Notifications",
+    "profile": "Profile"
+  },
+  "screens": {
+          "index": { "title": "root welcome page", "explor_app": "Explore App" }
+,
+    "(tabs)": {
+      "index": {
+        "title": "tabs home page",
+        "btn_search_placehaulder": "Search for food, products, or more...",
+        "horizontal_categories_scroll": {
+          "title": "Categories",
+          "name": {
+            "restaurant": "Restaurants",
+            "supermarket": "Supermarkets",
+            "custom": "Customs"
+          },
+          "description": {
+            "restaurant": "Fast food & meals",
+            "supermarket": "Groceries, staples, fruits & vegetables",
+            "custom": "Medicines, health products & specialized orders"
+          }
+        },
+        "horizontal_restaurant_scroll": {
+          "title": "Restaurants",
+          "more": "More",
+          "items": {
+            "offers": "offers"
+          }
+        },
+        "top_snackes": {
+          "title": "Popular",
+          "more": "More",
+          "items": {
+            "offers": "offers"
+          }
+        }
+      },
+      "search": {
+        "title": "search page",
+        "btn_search_placehaulder": "Search for food, products, or more..."
+      },
+      "bag": { "title": "bag page" },
+      "notifications": { "title": "notifications page" },
+      "profile": {
+        "index": { "title": "profile page" },
+        "details": { "index": {}, "orders": { "index": {}, "details": {} } }
+      }
+    }
+  }
+}
