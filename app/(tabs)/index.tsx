@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import WheelMenu from "@/components/screens/home/WheelMenu";
 import { fonts, tailwindColors } from "@/const";
 import { useRouter } from "expo-router";
+import RestaurantSlide from "@/components/screens/home/RestorantSlider";
 
 const index = () => {
   const random = Math.random();
@@ -32,6 +33,7 @@ const index = () => {
           </TouchableOpacity>
         </View>
         <CategorySlider t={t} />
+        <RestaurantSlide/>
       </View>
     </ScrollView>
   );
@@ -41,7 +43,7 @@ export default index;
 
 const styles = StyleSheet.create({
   scroll_container: { flex: 1 },
-  container: { flex: 1, gap: 15 },
+  container: { flex: 1, gap: 20 },
   search_container: { paddingHorizontal: 15 },
   search_bg: { backgroundColor: tailwindColors.gray["50"], borderRadius: 10 },
   search_btn_input: { paddingVertical: 10,paddingHorizontal: 15, fontFamily: fonts["Montserrat-SemiBold"] },

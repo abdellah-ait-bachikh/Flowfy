@@ -23,7 +23,7 @@
           "description": {
             "restaurant": "Fast food & meals",
             "supermarket": "Groceries, staples, fruits & vegetables",
-            "custom": "Medicines, health products & specialized orders"
+            "custom": "Medicines, specialized orders"
           }
         },
         "horizontal_restaurant_scroll": {

@@ -34,12 +34,12 @@ const CategorySlider = ({ t }: { t: (text: string) => string }) => {
           onProgressChange={progress}
           modeConfig={{
             parallaxScrollingScale: 1,
-            parallaxScrollingOffset: 120,
+            parallaxScrollingOffset: 57,
           }}
           renderItem={({ item, index }) => (
             <TouchableOpacity
               activeOpacity={0.6}
-              style={[styles.item, { width: width * 0.65 }]}
+              style={[styles.item, { width: width * 0.78 }]}
             >
               <Image
                 source={item.image || defaultRestauranLogo}
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   container: { gap: 5 },
   header: { alignItems: "center" },
   header_title: { fontSize: 20, fontFamily: fonts["Montserrat-SemiBold"] },
-  curousel_container: {},
+  curousel_container: { height: 100 },
   item: {
     alignItems: "center",
     justifyContent: "flex-start",
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     height: 100,
     padding: 10,
     marginLeft: 10,
-    
+
     // elevation: 6,
     // // ✅ iOS shadow
     // shadowColor: tailwindColors.amber[400],
@@ -102,8 +102,8 @@ const styles = StyleSheet.create({
   },
   card_body: { flex: 1, flexDirection: "column", alignItems: "flex-start" },
   title: {
-    fontSize: 20,  fontFamily:fonts["Montserrat-Medium"],
-
+    fontSize: 20,
+    fontFamily: fonts["Montserrat-Medium"],
   },
   description: { fontSize: 13, color: tailwindColors.zinc[400] },
 });

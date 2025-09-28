@@ -27,7 +27,7 @@
           "description": {
             "restaurant": "Restauration rapide & repas",
             "supermarket": "Épicerie, produits de base, fruits & légumes",
-            "custom": "Médicaments, produits de santé & commandes spécialisées"
+            "custom": "Médicaments, commandes spécialisées"
           }
         },
         "horizontal_restaurant_scroll": {
