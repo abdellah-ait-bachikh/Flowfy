@@ -16,7 +16,7 @@ export const LanguageResources: Resource = {
 };
 
 export async function initI18next() {
-  let lng = "ar";
+  let lng = "en";
   try {
     const savedLang = await AsyncStorage.getItem("user-language");
     if (savedLang) {
@@ -29,7 +29,7 @@ export async function initI18next() {
   await i18next.use(initReactI18next).init({
     compatibilityJSON: "v4",
     lng,
-    fallbackLng: "ar",
+    fallbackLng: "en",
     resources: LanguageResources,
     interpolation: {
       escapeValue: false,

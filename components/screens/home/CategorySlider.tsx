@@ -12,10 +12,11 @@ import { appColors, categories, fonts, tailwindColors } from "@/const";
 import defaultRestauranLogo from "@/assets/images/icons/default_restaurant.png";
 import Carousel from "react-native-reanimated-carousel";
 import { useSharedValue } from "react-native-reanimated";
+import { useRouter } from "expo-router";
 const { width } = Dimensions.get("screen");
 const CategorySlider = ({ t }: { t: (text: string) => string }) => {
   const progress = useSharedValue<number>(0);
-
+  const router = useRouter();
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -40,6 +41,9 @@ const CategorySlider = ({ t }: { t: (text: string) => string }) => {
             <TouchableOpacity
               activeOpacity={0.6}
               style={[styles.item, { width: width * 0.78 }]}
+              onPress={() => {
+                router.push(`/(tabs)/home/${item.href}`);
+              }}
             >
               <Image
                 source={item.image || defaultRestauranLogo}

@@ -9,13 +9,16 @@
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.abdellahbachikh.Flowfy",
+      "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
       "icon": "./assets/images/flowfy-border-r-removed.png",
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.abdellah_bachikh.Flowfy"
+      "package": "com.abdellahbachikh.Flowfy",
+      "googleServicesFile": "./google-services.json"
     },
     "notification": {
       "icon": "./assets/images/notification-icon.png",
@@ -32,8 +35,7 @@
         {
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 300,
-          "resizeMode": "contain",
-          "backgroundColor": "#fff200"
+          "resizeMode": "contain"
         }
       ]
     ],
@@ -44,8 +46,9 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "a9906541-05e6-448c-a378-5a5c6ff6f494"
+        "projectId": "eef1743d-c01c-44bb-8093-602360af2a07"
       }
-    }
+    },
+    "owner": "abdellah_ait_bachikh"
   }
 }

@@ -313,12 +313,17 @@ export const tailwindColors = {
 
 export const user = null;
 
-export const categories = [
+export const categories: {
+    id: number;
+    name: string;
+    image: any;
+    href: "restaurants" | "supermarket" | "custom-order";
+}[] = [
   {
     id: 1,
     name: "restaurant",
     image: restaurant_logo,
-    href: "restaurant",
+    href: "restaurants",
   },
   {
     id: 2,
@@ -330,7 +335,7 @@ export const categories = [
     id: 3,
     name: "custom",
     image: custom_logo,
-    href: "custom",
+    href: "custom-order",
   },
 ];
 

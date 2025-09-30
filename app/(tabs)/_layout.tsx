@@ -17,8 +17,8 @@ const _layout = () => {
   const tabs = [
     {
       label: t("tabs.home"),
-      name: "index",
-      href: "/(tabs)",
+      name: "home",
+      href: "/(tabs)/home/index",
       icon: <Feather size={28} name="home" />,
     },
     {
@@ -64,6 +64,7 @@ const _layout = () => {
         screenOptions={{ animation: "fade_from_bottom", unmountOnBlur: false }}
       /> */}
       <Tabs
+      initialRouteName="home/index"
         i18nIsDynamicList
         screenOptions={{
           headerShown: false,
