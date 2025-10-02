@@ -1,23 +1,22 @@
+import logo from "@/assets/images/flowfy-bg-transparent-croped.png";
+import AppText from "@/components/ui/AppText";
+import Screen from "@/components/ui/Screen";
+import { appColors, fonts, tailwindColors } from "@/lib/const";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
+import React, { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
+  Animated,
+  Easing,
+  I18nManager,
   Image,
   StyleSheet,
   TouchableOpacity,
   View,
-  Animated,
-  Easing,
-  I18nManager,
 } from "react-native";
-import React, { useRef, useEffect, useState } from "react";
-import Screen from "@/components/ui/Screen";
-import { appColors, fonts, tailwindColors } from "@/const";
-import AppText from "@/components/ui/AppText";
-import { useTranslation } from "react-i18next";
-import logo from "@/assets/images/flowfy-bg-transparent-croped.png";
-import { useRouter } from "expo-router";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import DropDownPicker from "react-native-dropdown-picker";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as Updates from "expo-updates";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const Index: React.FC = () => {
   const { t, i18n } = useTranslation();

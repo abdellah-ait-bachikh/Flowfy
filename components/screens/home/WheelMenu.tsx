@@ -1,17 +1,16 @@
 // WheelMenu.tsx
-import { appColors } from "@/const";
 import React, { useRef, useState } from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
   Animated,
-  PanResponder,
   Dimensions,
-  TouchableOpacity,
   GestureResponderEvent,
-  PanResponderGestureState,
   LayoutChangeEvent,
+  PanResponder,
+  PanResponderGestureState,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
 const { width: W, height: H } = Dimensions.get("window");
@@ -118,84 +117,83 @@ export default function WheelMenu({
 
         {/* الدونات الدوارة */}
         <Animated.View
-  {...pan.panHandlers}
-  style={[
-    {
-      width: size,
-      height: size,
-      marginTop: 60,
-      alignSelf: "center",
-      alignItems: "center",
-      justifyContent: "center",
-      transform: [{ rotate: rotateDeg }],
-    },
-  ]}
->
-  {/* This inner container ensures pivot = center */}
-  <View style={{ width: size, height: size }}>
-    {ITEMS.map((it, idx) => {
-      const angle = (idx / ITEMS.length) * Math.PI * 2 - Math.PI / 2;
-      const x = radius * Math.cos(angle) + size / 2 - 40; // 80/2 = 40
-      const y = radius * Math.sin(angle) + size / 2 - 40;
-
-      return (
-        <Animated.View
-          key={it.key}
+          {...pan.panHandlers}
           style={[
-            styles.item,
             {
-              position: "absolute",
-              left: x,
-              top: y,
-              transform: [{ rotate: inverseRotate }],
+              width: size,
+              height: size,
+              marginTop: 60,
+              alignSelf: "center",
+              alignItems: "center",
+              justifyContent: "center",
+              transform: [{ rotate: rotateDeg }],
             },
           ]}
         >
-          <TouchableOpacity
-            style={styles.itemButton}
-            onPress={() => console.log("pressed", it.key)}
-          >
-            <Text style={styles.itemEmoji}>🍔</Text>
-          </TouchableOpacity>
-          <Text style={styles.itemLabel}>{it.label}</Text>
-        </Animated.View>
-      );
-    })}
+          {/* This inner container ensures pivot = center */}
+          <View style={{ width: size, height: size }}>
+            {ITEMS.map((it, idx) => {
+              const angle = (idx / ITEMS.length) * Math.PI * 2 - Math.PI / 2;
+              const x = radius * Math.cos(angle) + size / 2 - 40; // 80/2 = 40
+              const y = radius * Math.sin(angle) + size / 2 - 40;
 
-    {/* The donut hole */}
-    <View
-      pointerEvents="none"
-      style={[
-        styles.hole,
-        {
-          width: size - donutThickness,
-          height: size - donutThickness,
-          borderRadius: (size - donutThickness) / 2,
-          left: (size - (size - donutThickness)) / 2,
-          top: (size - (size - donutThickness)) / 2,
-          
-        },
-      ]}
-    />
-  </View>
-</Animated.View>
+              return (
+                <Animated.View
+                  key={it.key}
+                  style={[
+                    styles.item,
+                    {
+                      position: "absolute",
+                      left: x,
+                      top: y,
+                      transform: [{ rotate: inverseRotate }],
+                    },
+                  ]}
+                >
+                  <TouchableOpacity
+                    style={styles.itemButton}
+                    onPress={() => console.log("pressed", it.key)}
+                  >
+                    <Text style={styles.itemEmoji}>🍔</Text>
+                  </TouchableOpacity>
+                  <Text style={styles.itemLabel}>{it.label}</Text>
+                </Animated.View>
+              );
+            })}
+
+            {/* The donut hole */}
+            <View
+              pointerEvents="none"
+              style={[
+                styles.hole,
+                {
+                  width: size - donutThickness,
+                  height: size - donutThickness,
+                  borderRadius: (size - donutThickness) / 2,
+                  left: (size - (size - donutThickness)) / 2,
+                  top: (size - (size - donutThickness)) / 2,
+                },
+              ]}
+            />
+          </View>
+        </Animated.View>
 
         {/* العنصر الأوسط */}
-      <View
-  style={[
-    styles.centerItemWrapper,
-    {
-      width: 64,
-      height: 64,
-      top: 60 + size / 2 - 32, // center vertically
-      left: W / 2 - 32,        // center horizontally
-    },
-  ]}
->
-  <View style={styles.centerItem}>
-    <Text style={styles.centerEmoji}>🍔</Text>
-  </View>
-</View>
+        <View
+          style={[
+            styles.centerItemWrapper,
+            {
+              width: 64,
+              height: 64,
+              top: 60 + size / 2 - 32, // center vertically
+              left: W / 2 - 32, // center horizontally
+            },
+          ]}
+        >
+          <View style={styles.centerItem}>
+            <Text style={styles.centerEmoji}>🍔</Text>
+          </View>
+        </View>
       </View>
     </View>
   );
@@ -250,24 +248,24 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#222",
   },
-centerItemWrapper: {
-  position: "absolute",
-  alignItems: "center",
-  justifyContent: "center",
-},
-centerItem: {
-  width: "100%",
-  height: "100%",
-  borderRadius: 32, // same as itemButton
-  backgroundColor: "#fff",
-  alignItems: "center",
-  justifyContent: "center",
-  elevation: 4,
-  shadowColor: "#000",
-  shadowOpacity: 0.12,
-  shadowRadius: 6,
-},
-centerEmoji: { fontSize: 26 },
+  centerItemWrapper: {
+    position: "absolute",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  centerItem: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 32, // same as itemButton
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+    elevation: 4,
+    shadowColor: "#000",
+    shadowOpacity: 0.12,
+    shadowRadius: 6,
+  },
+  centerEmoji: { fontSize: 26 },
 
   centerLabel: { marginTop: 6, fontSize: 14, fontWeight: "600" },
   promo: {

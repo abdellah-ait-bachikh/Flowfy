@@ -1,14 +1,18 @@
-import { StyleSheet, Text, View, ViewProps } from "react-native";
+import { appColors } from "@/lib/const";
 import React from "react";
+import { StyleSheet, View, ViewProps } from "react-native";
 import LinearGradientCmp from "./LinearGradientCmp";
-import { appColors } from "@/const";
 interface AppProps extends ViewProps {
   variant: "gradian" | "normal";
 }
 const Screen = ({ variant, ...res }: AppProps) => {
   if (variant === "gradian") {
     return (
-      <LinearGradientCmp {...res} style={[styles.screen, res.style]} colors={[appColors.light_yellow,appColors.yellow]}>
+      <LinearGradientCmp
+        {...res}
+        style={[styles.screen, res.style]}
+        colors={[appColors.light_yellow, appColors.yellow]}
+      >
         {res.children}
       </LinearGradientCmp>
     );

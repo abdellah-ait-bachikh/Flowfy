@@ -1,19 +1,11 @@
-import {
-  Image,
-  StatusBar,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import React from "react";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import logo from "@/assets/images/flowfy-bg-transparent-croped.png";
-import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
 import Feather from "@expo/vector-icons/Feather";
-import { BlurView } from "expo-blur";
-import { appColors } from "@/const";
+import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
 import { usePathname, useRouter } from "expo-router";
+import React from "react";
 import { useTranslation } from "react-i18next";
+import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const Header: React.FC = () => {
   const { top } = useSafeAreaInsets();

@@ -1,24 +1,22 @@
-import { Platform, ScrollView, StyleSheet, Text, View } from "react-native";
-import React from "react";
-import { Slot, Tabs } from "expo-router";
-import Screen from "@/components/ui/Screen";
-import LinearGradientCmp from "@/components/ui/LinearGradientCmp";
-import { appColors, fonts, tailwindColors } from "@/const";
-import Header from "@/components/ui/Header";
-import CustemTabs from "@/components/ui/CustemTabs";
-import { enableScreens } from "react-native-screens";
-import { useTranslation } from "react-i18next";
-import { AntDesign, Feather, Ionicons, Octicons } from "@expo/vector-icons";
+import AnimatedTabIcon from "@/components/ui/AnimatedTabIcon";
 import AppText from "@/components/ui/AppText";
+import Header from "@/components/ui/Header";
+import LinearGradientCmp from "@/components/ui/LinearGradientCmp";
+import { appColors, fonts, tailwindColors } from "@/lib/const";
+import { Feather, Ionicons, Octicons } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
+import { Tabs } from "expo-router";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { Platform, StyleSheet, View } from "react-native";
 
 const _layout = () => {
   const { t } = useTranslation();
   const tabs = [
     {
       label: t("tabs.home"),
-      name: "home",
-      href: "/(tabs)/home/index",
+      name: "(home)",
+      href: "/(tabs)/home",
       icon: <Feather size={28} name="home" />,
     },
     {
@@ -64,11 +62,11 @@ const _layout = () => {
         screenOptions={{ animation: "fade_from_bottom", unmountOnBlur: false }}
       /> */}
       <Tabs
-      initialRouteName="home/index"
+        initialRouteName="(home)"
         i18nIsDynamicList
         screenOptions={{
           headerShown: false,
-          lazy: false,
+          // lazy: false,
           tabBarStyle: {
             position: Platform.OS === "ios" ? "absolute" : "relative",
             borderTopWidth: 0,
@@ -76,12 +74,6 @@ const _layout = () => {
             shadowOpacity: 0,
             backgroundColor: "transparent",
           },
-          tabBarBackground: () => (
-            <BlurView
-              intensity={80} // change for stronger blur
-              style={{ flex: 1, backgroundColor: "transparent" }}
-            />
-          ),
           sceneStyle: {
             backgroundColor: "transparent",
           },
@@ -90,14 +82,12 @@ const _layout = () => {
         {tabs.map((item, index) => (
           <Tabs.Screen
             name={item.name}
-            options={{
-              animation: "shift",
+            options={{tabBarItemStyle:{flexDirection:"column"},
+              animation: "none",
               tabBarIcon: ({ focused, color, size }) => {
-                // Clone the icon element and override the color
-                return React.cloneElement(item.icon, {
-                  color: focused ? appColors.red : tailwindColors.zinc[400],
-                  size: 28,
-                });
+                return (
+                    <AnimatedTabIcon focused={focused} icon={item.icon} />
+                );
               },
               tabBarLabel: ({ color, focused }) => (
                 <AppText
@@ -105,6 +95,7 @@ const _layout = () => {
                     fontSize: 10,
                     fontFamily: fonts["Montserrat-SemiBold"],
                     color: focused ? appColors.red : tailwindColors.zinc[400],
+                   
                   }}
                 >
                   {item.label}

@@ -1,30 +1,32 @@
+import React from "react";
 import {
-  Alert,
   ScrollView,
   StyleSheet,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
 
-import AppText from "@/components/ui/AppText";
-import CategorySlider from "@/components/screens/home/CategorySlider";
-import { useTranslation } from "react-i18next";
-import WheelMenu from "@/components/screens/home/WheelMenu";
-import { fonts, tailwindColors } from "@/const";
+import { fonts, tailwindColors } from "@/lib/const";
 import { useRouter } from "expo-router";
-import RestaurantSlide from "@/components/screens/home/RestorantSlider";
+import { useTranslation } from "react-i18next";
+import RestaurantSlider from "@/components/screens/home/RestorantSlider";
+import CategoriesSlider from "@/components/screens/home/CategoriesSlider";
 
 const index = () => {
   const random = Math.random();
   const { t } = useTranslation();
-  const router = useRouter()
+  const router = useRouter();
   return (
     <ScrollView style={styles.scroll_container}>
       <View style={styles.container}>
         <View style={styles.search_container}>
-          <TouchableOpacity style={styles.search_bg} onPress={()=>{router.push('/search')}}>
+          <TouchableOpacity
+            style={styles.search_bg}
+            onPress={() => {
+              router.push("/search");
+            }}
+          >
             <TextInput
               style={styles.search_btn_input}
               placeholder={t("screens.(tabs).index.btn_search_placehaulder")}
@@ -32,8 +34,8 @@ const index = () => {
             />
           </TouchableOpacity>
         </View>
-        <CategorySlider t={t} />
-        <RestaurantSlide/>
+        <CategoriesSlider />
+        <RestaurantSlider />
       </View>
     </ScrollView>
   );
@@ -46,5 +48,9 @@ const styles = StyleSheet.create({
   container: { flex: 1, gap: 20 },
   search_container: { paddingHorizontal: 15 },
   search_bg: { backgroundColor: tailwindColors.gray["50"], borderRadius: 10 },
-  search_btn_input: { paddingVertical: 10,paddingHorizontal: 15, fontFamily: fonts["Montserrat-SemiBold"] },
+  search_btn_input: {
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    fontFamily: fonts["Montserrat-SemiBold"],
+  },
 });

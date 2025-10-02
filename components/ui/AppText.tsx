@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TextProps, View } from "react-native";
 import React from "react";
-import { fonts } from "@/const";
+import { fonts } from "@/lib/const";
 
 const AppText = (props: TextProps) => {
   return (

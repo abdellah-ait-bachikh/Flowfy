@@ -317,7 +317,7 @@ export const categories: {
     id: number;
     name: string;
     image: any;
-    href: "restaurants" | "supermarket" | "custom-order";
+    href: "restaurants" | "supermarket" | "custom";
 }[] = [
   {
     id: 1,
@@ -335,9 +335,9 @@ export const categories: {
     id: 3,
     name: "custom",
     image: custom_logo,
-    href: "custom-order",
+    href: "custom",
   },
-];
+] as const;
 
 export const restaurantSliderData = [
   {

@@ -1,17 +1,10 @@
-import {
-  StyleSheet,
-  Text,
-  Touchable,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import React from "react";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useTranslation } from "react-i18next";
-import AppText from "./AppText";
 import { AntDesign, Feather, Ionicons, Octicons } from "@expo/vector-icons";
-import { appColors } from "@/const";
 import { useRouter } from "expo-router";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import AppText from "./AppText";
 
 const CustemTabs = () => {
   const { bottom } = useSafeAreaInsets();

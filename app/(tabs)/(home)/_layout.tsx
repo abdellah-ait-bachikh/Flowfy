@@ -1,4 +1,3 @@
-// app/(tabs)/profile/_layout.tsx
 import { Stack } from "expo-router";
 
 export default function HomeLayout() {
@@ -6,8 +5,8 @@ export default function HomeLayout() {
     <Stack
       screenOptions={{
         headerShown: false,
-        contentStyle: { backgroundColor: "transparent" },
+        contentStyle: { backgroundColor: "transparent" },animation:'none'
       }}
-    ></Stack>
+    />
   );
 }

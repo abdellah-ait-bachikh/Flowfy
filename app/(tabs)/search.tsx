@@ -1,9 +1,9 @@
-import { ScrollView, StyleSheet, TextInput, View } from "react-native";
 import React, { useCallback, useRef } from "react";
+import { ScrollView, StyleSheet, TextInput, View } from "react-native";
 
-import { useTranslation } from "react-i18next";
-import { fonts, tailwindColors } from "@/const";
+import { fonts, tailwindColors } from "@/lib/const";
 import { useFocusEffect } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 const search = () => {
   const { t } = useTranslation();
