@@ -39,11 +39,11 @@ function CategoriesSlider() {
           mode="parallax"
           modeConfig={{
             parallaxScrollingScale: 1,
-            parallaxScrollingOffset: width * 0.34, // Reduced from 0.3 to 0.1
+            parallaxScrollingOffset: width * 0.34,
             parallaxAdjacentItemScale: 0.7,
           }}
           renderItem={({ item }) => (
-            <View style={{width:width * 0.75}}>
+            <View style={{ width: width * 0.75 }}>
               <Link
                 href={`/(tabs)/(home)/${item.href}`}
                 style={{ marginLeft: 20 }}
@@ -59,6 +59,15 @@ function CategoriesSlider() {
                     >
                       {t(
                         `screens.(tabs).index.horizontal_categories_scroll.name.${item.name}`
+                      )}
+                    </AppText>
+                    <AppText
+                      numberOfLines={2}
+                      ellipsizeMode="tail"
+                      style={styles.description}
+                    >
+                      {t(
+                        `screens.(tabs).index.horizontal_categories_scroll.description.${item.name}`
                       )}
                     </AppText>
                   </View>
@@ -126,5 +135,10 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     fontSize: 20,
+    fontFamily: fonts["Montserrat-Medium"],
+  },
+  description: {
+    fontSize: 10,
+    color: tailwindColors.gray[400],
   },
 });

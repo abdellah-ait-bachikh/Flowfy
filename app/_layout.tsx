@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import { initI18next } from "@/services/i18next";
 import { NotificationProvider } from "@/components/provider/NotificationProvider";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-
+import { Provider } from "react-redux";
+import { store } from "@/redux/store";
 export default function RootLayout() {
   const [loaded] = useFonts({
     "Montserrat-Black": require("../assets/fonts/Montserrat-Black.ttf"),
@@ -20,10 +21,9 @@ export default function RootLayout() {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    // First load translations, then mark app ready
     async function prepare() {
       await initI18next();
-      setReady(true); //  render the app immediately after translations
+      setReady(true);
     }
     prepare();
   }, []);
@@ -31,13 +31,17 @@ export default function RootLayout() {
   if (!loaded || !ready) {
     return null;
   }
-
   return (
     <NotificationProvider>
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <Stack
-          screenOptions={{ headerShown: false, animation: "fade_from_bottom" }}
-        />
+        <Provider store={store}>
+          <Stack
+            screenOptions={{
+              headerShown: false,
+              animation: "fade_from_bottom",
+            }}
+          />
+        </Provider>
       </GestureHandlerRootView>
     </NotificationProvider>
   );

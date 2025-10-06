@@ -75,19 +75,18 @@ const _layout = () => {
             backgroundColor: "transparent",
           },
           sceneStyle: {
-            backgroundColor: "transparent",
+            backgroundColor: "transparent",flex:1
           },
         }}
       >
         {tabs.map((item, index) => (
           <Tabs.Screen
             name={item.name}
-            options={{tabBarItemStyle:{flexDirection:"column"},
+            options={{
+              tabBarItemStyle: { flexDirection: "column" },
               animation: "none",
               tabBarIcon: ({ focused, color, size }) => {
-                return (
-                    <AnimatedTabIcon focused={focused} icon={item.icon} />
-                );
+                return <AnimatedTabIcon focused={focused} icon={item.icon} />;
               },
               tabBarLabel: ({ color, focused }) => (
                 <AppText
@@ -95,7 +94,6 @@ const _layout = () => {
                     fontSize: 10,
                     fontFamily: fonts["Montserrat-SemiBold"],
                     color: focused ? appColors.red : tailwindColors.zinc[400],
-                   
                   }}
                 >
                   {item.label}
