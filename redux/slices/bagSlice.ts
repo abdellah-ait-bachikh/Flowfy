@@ -11,3 +11,6 @@ const bagSlice = createSlice({
     },
   },
 });
+
+export const bagReducer = bagSlice.reducer
+export const bagActions = bagSlice.actions
