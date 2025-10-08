@@ -34,7 +34,7 @@ function CategoriesSlider() {
         <Carousel
           ref={ref}
           loop
-          width={width * 0.6 + 10} // 👈 width of item + spacing
+          width={width * 0.6 + 10} 
           height={CARD_HEIGHT}
           autoPlay
           autoPlayInterval={2500}
