@@ -1,4 +1,5 @@
 import AnimatedTabIcon from "@/components/app/share/AnimatedTabIcon";
+import Header from "@/components/app/share/Header";
 import LinearGradientCmp from "@/components/app/share/LinearGradientCmp";
 import { Icon } from "@/components/ui/icon";
 import { Text } from "@/components/ui/text";
@@ -32,7 +33,7 @@ export default function TabLayout() {
         screenOptions={{
           tabBarPosition: "bottom",
           tabBarActiveTintColor: primary,
-          headerShown: false,
+          header: () => <Header />,
           sceneStyle: { backgroundColor: "transparent" },
           tabBarButton: (props) => (
             <PlatformPressable

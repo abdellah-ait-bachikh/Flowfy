@@ -11,8 +11,14 @@
     "preview": {
       "distribution": "internal"
     },
-    "production": {
-      "autoIncrement": true
+   "production": {
+      "autoIncrement": true,
+      "android": {
+        "buildType": "apk"
+      },
+      "ios": {
+        // You can leave this empty if you’re not building iOS yet
+      }
     }
   },
   "submit": {
