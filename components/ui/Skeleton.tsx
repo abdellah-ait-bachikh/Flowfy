@@ -1,74 +1,64 @@
-import React, { useRef, useEffect } from "react";
-import {
-  Animated,
-  View,
-  StyleSheet,
-  ViewProps,
-  Dimensions,
-} from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
-import { tailwindColors } from "@/lib/const";
+import { useColor } from '@/hooks/useColor';
+import { BORDER_RADIUS, CORNERS } from '@/theme/globals';
+import React, { useEffect } from 'react';
+import { ViewStyle } from 'react-native';
+import Animated, {
+  Easing,
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  withRepeat,
+} from 'react-native-reanimated';
 
-const { width: screenWidth } = Dimensions.get("window");
-
-interface SkeletonProps extends ViewProps {
+interface SkeletonProps {
   width?: number | string;
-  height?: number | string;
-  borderRadius?: number;
+  height?: number;
+  style?: ViewStyle;
+  variant?: 'default' | 'rounded';
 }
 
-const Skeleton: React.FC<SkeletonProps> = ({ style, ...viewProps }) => {
-  const translateX = useRef(new Animated.Value(-screenWidth)).current;
+export function Skeleton({
+  width = '100%',
+  height = 100,
+  style,
+  variant = 'default',
+}: SkeletonProps) {
+  const mutedColor = useColor('muted');
+  // Start the opacity at its lowest point
+  const opacity = useSharedValue(0.5);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      opacity: opacity.value,
+    };
+  });
 
   useEffect(() => {
-    const loop = Animated.loop(
-      Animated.timing(translateX, {
-        toValue: screenWidth,
-        duration: 1100,
-        useNativeDriver: true,
-      })
+    // We only define the animation going from 0.5 -> 1.
+    // The `withRepeat` function will handle reversing it automatically.
+    opacity.value = withRepeat(
+      // Animate to an opacity of 1
+      withTiming(1, {
+        duration: 1000,
+        easing: Easing.inOut(Easing.quad),
+      }),
+      -1, // Loop infinitely
+      true // Set to true to automatically reverse the animation (yoyo effect)
     );
-    loop.start();
-    return () => loop.stop();
-  }, [translateX]);
+  }, []); // Use an empty dependency array as the shared value object is stable
 
   return (
-    <View
-      {...viewProps} // <-- Spread all ViewProps here
-      style={[styles.container, style]}
-    >
-      <View style={styles.base} />
-
-      <Animated.View
-        style={[styles.shimmerWrapper, { transform: [{ translateX }] }]}
-      >
-        <LinearGradient
-          colors={["#E1E9EE00", "#FFFFFF55", "#E1E9EE00"]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-          style={styles.gradient}
-        />
-      </Animated.View>
-    </View>
+    <Animated.View
+      style={[
+        {
+          width: width as any,
+          height,
+          backgroundColor: mutedColor,
+          borderRadius: variant === 'default' ? CORNERS : BORDER_RADIUS,
+        },
+        animatedStyle,
+        style,
+      ]}
+    />
   );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: tailwindColors.gray[300],
-    overflow: "hidden",
-  },
-  base: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: tailwindColors.gray[300],
-  },
-  shimmerWrapper: {
-    ...StyleSheet.absoluteFillObject,
-  },
-  gradient: {
-    flex: 1,
-    width: "150%",
-  },
-});
-
-export default Skeleton;
+}

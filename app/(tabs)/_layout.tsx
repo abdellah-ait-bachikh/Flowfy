@@ -1,118 +1,78 @@
-import AnimatedTabIcon from "@/components/ui/AnimatedTabIcon";
-import AppText from "@/components/ui/AppText";
-import Header from "@/components/ui/Header";
-import LinearGradientCmp from "@/components/ui/LinearGradientCmp";
-import { appColors, fonts, tailwindColors } from "@/lib/const";
-import { Feather, Ionicons, Octicons } from "@expo/vector-icons";
+import { Icon } from "@/components/ui/icon";
+import { useColor } from "@/hooks/useColor";
+import { PlatformPressable } from "@react-navigation/elements";
 import { BlurView } from "expo-blur";
+import * as Haptics from "expo-haptics";
 import { Tabs } from "expo-router";
+import { Home, Stars } from "lucide-react-native";
 import React from "react";
-import { useTranslation } from "react-i18next";
-import { Platform, StyleSheet, View } from "react-native";
+import { Platform, StyleSheet, useWindowDimensions } from "react-native";
 
-const _layout = () => {
-  const { t } = useTranslation();
-  const tabs = [
-    {
-      label: t("tabs.home"),
-      name: "(home)",
-      href: "/(tabs)/home",
-      icon: <Feather size={28} name="home" />,
-    },
-    {
-      label: t("tabs.search"),
-      name: "search",
-      href: "/(tabs)/search",
-      icon: <Ionicons size={28} name="search" />,
-    },
-    {
-      label: t("tabs.bag"),
-      name: "bag",
-      href: "/(tabs)/bag",
-      icon: <Feather size={28} name="shopping-cart" />,
-    },
-    {
-      label: t("tabs.notifications"),
-      name: "notifications",
-      href: "/(tabs)/notifications",
-      icon: <Ionicons size={28} name="notifications-outline" />,
-    },
-    {
-      label: t("tabs.profile"),
-      name: "profile",
-      href: "/(tabs)/profile/index",
-      icon: <Octicons size={28} name="person" />,
-    },
-  ] as const;
+export default function TabLayout() {
+  const primary = useColor("primary");
+  const { width } = useWindowDimensions();
 
   return (
-    <LinearGradientCmp
-      colors={[
-        appColors.light_yellow,
-        appColors.white,
-        appColors.white,
-        appColors.white,
-        appColors.white,
-        appColors.white,
-      ]}
-    >
-      <Header />
-      {/* 
-      <Slot
-        screenOptions={{ animation: "fade_from_bottom", unmountOnBlur: false }}
-      /> */}
-      <Tabs
-        initialRouteName="(home)"
-        i18nIsDynamicList
-        screenOptions={{
-          headerShown: false,
-          // lazy: false,
-          tabBarStyle: {
-            position: Platform.OS === "ios" ? "absolute" : "relative",
-            borderTopWidth: 0,
-            elevation: 0,
-            shadowOpacity: 0,
-            backgroundColor: "transparent",
-          },
-          sceneStyle: {
-            backgroundColor: "transparent",flex:1
-          },
-        }}
-      >
-        {tabs.map((item, index) => (
-          <Tabs.Screen
-            name={item.name}
-            options={{
-              tabBarItemStyle: { flexDirection: "column" },
-              animation: "none",
-              tabBarIcon: ({ focused, color, size }) => {
-                return <AnimatedTabIcon focused={focused} icon={item.icon} />;
-              },
-              tabBarLabel: ({ color, focused }) => (
-                <AppText
-                  style={{
-                    fontSize: 10,
-                    fontFamily: fonts["Montserrat-SemiBold"],
-                    color: focused ? appColors.red : tailwindColors.zinc[400],
-                  }}
-                >
-                  {item.label}
-                </AppText>
-              ),
-              tabBarActiveTintColor: appColors.red,
+    <Tabs
+      screenOptions={{
+        tabBarPosition: "bottom",
+        tabBarActiveTintColor: primary,
+        headerShown: false,
+        sceneStyle: { backgroundColor: "transparent" },
+        tabBarButton: (props) => (
+          <PlatformPressable
+            {...props}
+            onPressIn={(ev) => {
+              if (process.env.EXPO_OS === "ios") {
+                // Add a soft haptic feedback when pressing down on the tabs.
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+              }
+              props.onPressIn?.(ev);
             }}
           />
-        ))}
-      </Tabs>
-      {/* <CustemTabs /> */}
-    </LinearGradientCmp>
+        ),
+        tabBarBackground: () => {
+          if (Platform.OS === "ios") {
+            return (
+              <BlurView
+                tint="systemChromeMaterial"
+                intensity={100}
+                style={StyleSheet.absoluteFill}
+              />
+            );
+          }
+
+          // On Android & Web: no background
+          return null;
+        },
+        tabBarStyle: Platform.select({
+          ios: {
+            // Use a transparent background on iOS to show the blur effect
+            position: "absolute",
+          },
+          default: {},
+        }),
+      }}
+    >
+      <Tabs.Screen
+        name="index"
+        options={{
+          title: "Home",
+          tabBarIcon: ({ color }) => (
+            <Icon name={Home} size={24} color={color} />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="explore"
+        options={{
+          title: "Explore",
+          tabBarIcon: ({ color }) => (
+            <Icon name={Stars} size={24} color={color} />
+          ),
+        }}
+      />
+    </Tabs>
   );
-};
-
-export default _layout;
-
-const styles = StyleSheet.create({
-  content: {
-    flex: 1,
-  },
-});
+}

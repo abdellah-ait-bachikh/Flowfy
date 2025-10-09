@@ -5,50 +5,54 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "flowfy10",
+    "scheme": "flowfy",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffffff"
+    },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.abdellahbachikh.Flowfy",
+      "bundleIdentifier": "dev.expo.flowfy.com",
       "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
-      "icon": "./assets/images/flowfy-border-r-removed.png",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/icon.png",
+        "backgroundColor": "#0A0A0A"
+      },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false,
-      "package": "com.abdellahbachikh.Flowfy",
+      "package": "dev.expo.flowfy.com",
       "googleServicesFile": "./google-services.json"
     },
-    "notification": {
-      "icon": "./assets/images/notification-icon.png",
-      "color": "#fff200"
-    },
     "web": {
+      "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/icon.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 300,
-          "resizeMode": "contain"
+          "image": "./assets/images/splash.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#0A0A0A"
         }
       ]
     ],
     "experiments": {
-      "typedRoutes": true,
-      "reactCompiler": true
+      "typedRoutes": true
     },
+    "owner": "abdellah_ait_bachikh",
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "eef1743d-c01c-44bb-8093-602360af2a07"
+        "projectId": "aefd129f-d648-42f2-a51b-7c55fd360652"
       }
-    },
-    "owner": "abdellah_ait_bachikh"
+    }
   }
 }

@@ -1,72 +1,25 @@
-import logo from "@/assets/images/flowfy-bg-transparent-croped.png";
-import AppText from "@/components/ui/AppText";
-import Screen from "@/components/ui/Screen";
-import { appColors, fonts, tailwindColors } from "@/lib/const";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useRouter } from "expo-router";
-import React, { useEffect, useRef, useState } from "react";
+import { I18nManager, Image, StyleSheet, View } from "react-native";
+import React, { useState } from "react";
+import LinearGradientCmp from "@/components/app/share/LinearGradientCmp";
+import { appColors, tailwindColors } from "@/theme/colors";
+import { Picker } from "@/components/ui/picker";
 import { useTranslation } from "react-i18next";
-import {
-  Animated,
-  Easing,
-  I18nManager,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import DropDownPicker from "react-native-dropdown-picker";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-
-const Index: React.FC = () => {
-  const { t, i18n } = useTranslation();
-  const shineAnim = useRef(new Animated.Value(-1)).current;
-  const router = useRouter();
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import logo from "@/assets/images/flowfy-bg-transparent-croped.png";
+import { Button } from "@/components/ui/button";
+import { fonts } from "@/lib/const";
+import { Link } from "expo-router";
+const index = () => {
+  const [ln, setLn] = useState("fr");
+  const { i18n, t } = useTranslation();
   const { top } = useSafeAreaInsets();
+  const handelLnChange = async (value: "en" | "fr" | "ar") => {
+    setLn(value);
+    i18n.changeLanguage(value);
+    await AsyncStorage.setItem("appLanguage", value);
 
-  const [open, setOpen] = useState(false);
-  const [ln, setLn] = useState(i18n.language);
-  const [items, setItems] = useState([
-    { label: "English", value: "en" },
-    { label: "Français", value: "fr" },
-    { label: "العربية", value: "ar" },
-  ]);
-
-  useEffect(() => {
-    const loadLanguage = async () => {
-      const savedLang = await AsyncStorage.getItem("appLanguage");
-      if (savedLang) {
-        setLn(savedLang);
-        await i18n.changeLanguage(savedLang);
-      }
-    };
-    loadLanguage();
-  }, []);
-
-  useEffect(() => {
-    const loop = () => {
-      shineAnim.setValue(-1);
-      Animated.timing(shineAnim, {
-        toValue: 1,
-        duration: 900,
-        easing: Easing.linear,
-        useNativeDriver: true,
-      }).start(() => loop());
-    };
-    loop();
-  }, [shineAnim]);
-
-  const translateX = shineAnim.interpolate({
-    inputRange: [-1, 1],
-    outputRange: [-200, 200],
-  });
-
-  const handleChangeLanguage = async (lng: "en" | "fr" | "ar") => {
-    setLn(lng);
-    await i18n.changeLanguage(lng);
-    await AsyncStorage.setItem("appLanguage", lng);
-
-    if (lng === "ar") {
+    if (value === "ar") {
       I18nManager.forceRTL(true);
     } else {
       I18nManager.forceRTL(false);
@@ -74,94 +27,68 @@ const Index: React.FC = () => {
   };
 
   return (
-    <Screen style={styles.screen} variant="gradian">
-      <View style={[styles.language_switcher, { top }]}>
-        <DropDownPicker
-          open={open}
-          value={ln}
-          items={items}
-          setOpen={setOpen}
-          setValue={setLn}
-          setItems={setItems}
-          style={styles.select_ln}
-          dropDownContainerStyle={styles.dropDownContainerStyle}
-          closeOnBackPressed={true}
-          onChangeValue={(val) => {
-            if (val && (val === "ar" || val === "fr" || val === "en"))
-              handleChangeLanguage(val);
-          }}
-        />
+    <LinearGradientCmp colors={[appColors.light_yellow, appColors.yellow]}>
+      <View style={styles.screen}>
+        <View style={[styles.picker_container, { top: top }]}>
+          <Picker
+            style={{
+              backgroundColor: "transparent",
+              borderColor: "transparent",
+            }}
+            options={[
+              { label: "English", value: "en" },
+              { label: "Français", value: "fr" },
+              { label: "العربية", value: "ar" },
+            ]}
+            value={ln}
+            onValueChange={(value) =>
+              handelLnChange(value as "en" | "fr" | "ar")
+            }
+            placeholder="Select language..."
+          />
+        </View>
+        <Image source={logo} style={styles.logo} />
+
+        <Link asChild href={"/(tabs)"}>
+          <Button
+            style={styles.btn}
+            textStyle={styles.btnText}
+            onPress={() => {}}
+          >
+            {t("screens.index.explor_app")}
+          </Button>
+        </Link>
       </View>
-
-      <Image source={logo} style={styles.logo} />
-
-      <TouchableOpacity
-        style={styles.btn}
-        onPress={() => {
-          router.push("/(tabs)");
-        }}
-      >
-        <AppText style={styles.btn_text}>
-          {t("screens.index.explor_app")}
-        </AppText>
-        <Animated.View
-          style={[
-            styles.shine,
-            {
-              transform: [{ translateX }],
-            },
-          ]}
-        />
-      </TouchableOpacity>
-    </Screen>
+    </LinearGradientCmp>
   );
 };
 
-export default Index;
+export default index;
 
 const styles = StyleSheet.create({
   screen: {
-    backgroundColor: appColors.yellow,
+    flex: 1,
+    backgroundColor: "transparent",
     justifyContent: "center",
     alignItems: "center",
     position: "relative",
-    gap: 30,
+    gap: 20,
   },
-  select_ln: {
-    width: 120,
-    backgroundColor: "transparent",
-    borderWidth: 0,
+  picker_container: {
+    position: "absolute",
+    width: 150,
   },
-  dropDownContainerStyle: {
-    backgroundColor: tailwindColors.yellow[100],
-    borderColor: "transparent",
-    borderRadius: 15,
-  },
-  language_switcher: { position: "absolute", justifyContent: "center" },
   logo: {
     width: 250,
     height: 100,
     resizeMode: "contain",
   },
   btn: {
+    backgroundColor: "transparent",
     borderWidth: 3,
     borderColor: appColors.light_yellow,
-    borderRadius: 15,
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    overflow: "hidden",
   },
-  btn_text: {
-    fontSize: 18,
-    fontFamily: fonts["Montserrat-Medium"],
+  btnText: {
     color: appColors.black,
-  },
-  shine: {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    width: 60,
-    backgroundColor: appColors.light_yellow,
-    borderRadius: 15,
   },
 });
