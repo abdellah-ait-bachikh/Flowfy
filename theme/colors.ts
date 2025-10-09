@@ -166,6 +166,7 @@ export const appColors = {
   yellow: "#fff200",
   light_yellow: "#fffa9cff",
   red: "#ed1c24",
+  light_red: "#ff4a5069",
 } as const;
 
 export const tailwindColors = {

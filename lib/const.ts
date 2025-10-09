@@ -1,6 +1,13 @@
 import restaurant_logo from "@/assets/images/icons/restaurant.png";
 import supermarket_logo from "@/assets/images/icons/supermarket.png";
 import custom_logo from "@/assets/images/icons/custom.png";
+import {
+  Bell,
+  House,
+  Search,
+  ShoppingCart,
+  UserRound,
+} from "lucide-react-native";
 
 export const fonts = {
   "Montserrat-Black": "Montserrat-Black",
@@ -14,15 +21,45 @@ export const fonts = {
   "Montserrat-Thin": "Montserrat-Thin",
 };
 
-
+export const tabs = [
+  {
+    label: "home",
+    name: "(home)",
+    href: "/(tabs)/(home)",
+    icon: House,
+  },
+  {
+    label: "search",
+    name: "search",
+    href: "/(tabs)/search",
+    icon: Search,
+  },
+  {
+    label: "bag",
+    name: "bag",
+    href: "/(tabs)/bag",
+    icon: ShoppingCart,
+  },
+  {
+    label: "notifications",
+    name: "notifications",
+    href: "/(tabs)/notifications",
+    icon: Bell,
+  },
+  {
+    label: "profile",
+    name: "profile",
+    icon: UserRound,
+  },
+] as const;
 
 export const user = null;
 
 export const categories: {
-    id: number;
-    name: string;
-    image: any;
-    href: "restaurants" | "supermarket" | "custom";
+  id: number;
+  name: string;
+  image: any;
+  href: "restaurants" | "supermarket" | "custom";
 }[] = [
   {
     id: 1,
