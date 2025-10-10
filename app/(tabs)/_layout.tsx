@@ -32,6 +32,7 @@ export default function TabLayout() {
       <Tabs
         initialRouteName="(home)"
         screenOptions={{
+          animation: "fade",
           tabBarPosition: "bottom",
           tabBarActiveTintColor: primary,
           header: () => <Header />,
@@ -52,7 +53,8 @@ export default function TabLayout() {
             borderTopWidth: 0,
             elevation: 0,
             shadowOpacity: 0,
-            backgroundColor: "transparent",paddingHorizontal:6
+            backgroundColor: "transparent",
+            paddingHorizontal: 6,
           },
         }}
       >
@@ -63,7 +65,7 @@ export default function TabLayout() {
               title: item.label,
               tabBarItemStyle: {
                 borderRadius: 10,
-                overflow: "hidden", 
+                overflow: "hidden",
                 backgroundColor: "transparent",
               },
               tabBarButton: (props) => {

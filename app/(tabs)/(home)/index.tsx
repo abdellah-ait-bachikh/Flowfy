@@ -5,32 +5,50 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SearchBar } from "@/components/ui/searchbar";
-import { tailwindColors } from "@/theme/colors";
+import { appColors, tailwindColors } from "@/theme/colors";
 import { useRouter } from "expo-router";
 import Categories from "./.home/Categories";
 import { fonts } from "@/lib/const";
+import { Spinner } from "@/components/ui/spinner";
+import AppText from "@/components/app/share/AppText";
+import ScreenLoading from "@/components/app/share/ScreenLoading";
 const index = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    async function waitLoading() {
+      setLoading(true);
+      await new Promise((res) => setTimeout(res, 3000));
+      setLoading(false);
+    }
+    waitLoading();
+  }, []);
   return (
     <ScrollView contentContainerStyle={styles.screen}>
-      <TouchableOpacity
-        style={styles.search_container}
-        onPress={() => {
-          router.push("/(tabs)/search");
-        }}
-      >
-        <SearchBar
-          placeholder="Search for anything..."
-          loading={false}
-          containerStyle={styles.search_wrapper}
-          inputStyle={styles.search_input}
-          editable={false}
-          pointerEvents="none"
-        />
-      </TouchableOpacity>
-      <Categories />
+      {loading ? (
+       <ScreenLoading/>
+      ) : (
+        <>
+          <TouchableOpacity
+            style={styles.search_container}
+            onPress={() => {
+              router.push("/(tabs)/search");
+            }}
+          >
+            <SearchBar
+              placeholder="Search for anything..."
+              loading={false}
+              containerStyle={styles.search_wrapper}
+              inputStyle={styles.search_input}
+              editable={false}
+              pointerEvents="none"
+            />
+          </TouchableOpacity>
+          <Categories />
+        </>
+      )}
     </ScrollView>
   );
 };

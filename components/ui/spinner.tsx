@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 // Types
-type SpinnerSize = 'default' | 'sm' | 'lg' | 'icon';
+type SpinnerSize = 'default' | 'sm' | 'lg' | 'icon' | 'xl' | 'xxl';
 export type SpinnerVariant = 'default' | 'circle' | 'dots' | 'pulse' | 'bars';
 
 interface SpinnerProps {
@@ -43,19 +43,14 @@ interface SpinnerConfig {
 }
 
 // Configuration
-const sizeConfig: Record<SpinnerSize, SpinnerConfig> = {
+const sizeConfig: Record<SpinnerSize | 'xl' | 'xxl', SpinnerConfig> = {
   sm: { size: 16, iconSize: 16, fontSize: 12, gap: 6, thickness: 2 },
-  default: {
-    size: 24,
-    iconSize: 24,
-    fontSize: FONT_SIZE,
-    gap: 8,
-    thickness: 2,
-  },
+  default: { size: 24, iconSize: 24, fontSize: FONT_SIZE, gap: 8, thickness: 2 },
   lg: { size: 32, iconSize: 32, fontSize: 16, gap: 10, thickness: 3 },
   icon: { size: 24, iconSize: 24, fontSize: FONT_SIZE, gap: 8, thickness: 2 },
+  xl: { size: 48, iconSize: 48, fontSize: 20, gap: 12, thickness: 4 },
+  xxl: { size: 64, iconSize: 64, fontSize: 24, gap: 16, thickness: 5 },
 };
-
 const speedConfig = {
   slow: 1500,
   normal: 1000,
