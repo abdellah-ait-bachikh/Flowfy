@@ -1,5 +1,5 @@
-import AppText from "@/components/ui/AppText";
-import { appColors, categories, fonts, tailwindColors } from "@/lib/const";
+
+import {  categories, fonts,  } from "@/lib/const";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -11,6 +11,9 @@ import {
 } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
 import Carousel, { ICarouselInstance } from "react-native-reanimated-carousel";
+import AppText from "../../share/AppText";
+import { appColors, tailwindColors } from "@/theme/colors";
+import { FONT_SIZE_NORMAL } from "@/theme/globals";
 
 const { width } = Dimensions.get("window");
 const CARD_HEIGHT = 100;
@@ -49,7 +52,7 @@ function CategoriesSlider() {
               style={[
                 styles.cardWrapper,
                 { width: width * 0.6, marginRight: 10 },
-              ]} // 👈 spacing between cards
+              ]} 
               activeOpacity={0.8}
             >
               <View style={styles.card}>
@@ -91,7 +94,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontFamily: fonts["Montserrat-SemiBold"],
-    fontSize: 17,
+    fontSize: FONT_SIZE_NORMAL,
   },
 
   cardWrapper: {

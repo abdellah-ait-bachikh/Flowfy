@@ -13,7 +13,7 @@ import {
   FONT_SIZE_SMALL,
 } from "@/theme/globals";
 import { categories, fonts } from "@/lib/const";
-import { appColors } from "@/theme/colors";
+import { appColors, tailwindColors } from "@/theme/colors";
 import { useRouter } from "expo-router";
 
 const Categories = () => {
@@ -64,7 +64,7 @@ const Categories = () => {
                 ellipsizeMode="tail"
               >
                 {item.name + " "}
-                {item.name}  {item.name}
+                {item.name} {item.name}
               </AppText>
             </View>
           </TouchableOpacity>
@@ -98,11 +98,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     padding: 10,
-    shadowColor: "#080606ff",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    borderWidth: 2,
+    borderColor: tailwindColors.neutral[100],
+    // shadowColor: "#080606ff",
+    // shadowOffset: { width: 0, height: 2 },
+    // shadowOpacity: 0.1,
+    // shadowRadius: 4,
+    // elevation: 3,
   },
   imageContainer: {
     width: 40,

@@ -1,4 +1,4 @@
-import { categories, restaurantSliderData } from "@/lib/const";
+import { categories, fonts, restaurantSliderData } from "@/lib/const";
 import * as React from "react";
 import {
   View,
@@ -12,26 +12,29 @@ import Carousel, {
   ICarouselInstance,
   Pagination,
 } from "react-native-reanimated-carousel";
-import { Ionicons } from "@expo/vector-icons";
+import { Fontisto, Ionicons } from "@expo/vector-icons";
 import { appColors, tailwindColors } from "@/theme/colors";
 import AppText from "../../share/AppText";
 import defaultRestaurantLogo from "@/assets/images/icons/default-restaurant-logo.png";
 import {
   FONT_SIZE_MEDUIME,
   FONT_SIZE_NORMAL,
+  FONT_SIZE_SEMI_TITLE,
   FONT_SIZE_SMALL,
 } from "@/theme/globals";
 import { Star } from "lucide-react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import RatingStarts from "../../share/RatingStarts";
+import { Badge } from "@/components/ui/badge";
+import { useTranslation } from "react-i18next";
 function RestaurantSlider() {
   const ref = React.useRef<ICarouselInstance>(null);
   const progress = useSharedValue<number>(0);
   const { width } = useWindowDimensions();
-
+  const { t } = useTranslation();
   // Responsive ITEM_WIDTH
   const ITEM_WIDTH = width >= 800 ? 600 : width * 0.8 - 10;
-  const ITEM_HEIGHT = width >= 800 ? 140 : 100;
+  const ITEM_HEIGHT = width >= 800 ? 140 : 110;
   const IMAGE_SIZE = width >= 800 ? 120 : 80;
 
   const onPressPagination = (index: number) => {
@@ -57,7 +60,11 @@ function RestaurantSlider() {
 
   return (
     <View style={styles.container}>
-      {/* Carousel with arrows */}
+      <View style={styles.headerRow}>
+        <AppText style={styles.headerTitle}>
+          {t(`screens.(tabs).index.horizontal_restaurant_scroll.title`)}
+        </AppText>
+      </View>
       <View style={styles.carouselWrapper}>
         {/* Prev Arrow */}
         <TouchableOpacity onPress={handlePrev} activeOpacity={0.7}>
@@ -80,7 +87,9 @@ function RestaurantSlider() {
           data={restaurantSliderData}
           onProgressChange={progress}
           renderItem={({ item }) => (
-            <TouchableOpacity style={[styles.carouselItem, { height: ITEM_HEIGHT }]}>
+            <TouchableOpacity
+              style={[styles.carouselItem, { height: ITEM_HEIGHT }]}
+            >
               <Image
                 style={[
                   styles.card_restaurant_logo,
@@ -92,7 +101,7 @@ function RestaurantSlider() {
               <View style={styles.card_text_container}>
                 <AppText
                   style={styles.card_text_title}
-                  numberOfLines={1}
+                  numberOfLines={2}
                   ellipsizeMode="tail"
                 >
                   {item.name}
@@ -100,6 +109,47 @@ function RestaurantSlider() {
                 <View style={styles.card_rating}>
                   <AppText> {item.rating} </AppText>
                   <RatingStarts rating={item.rating} />
+                </View>
+
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <View style={styles.card_products_count_container}>
+                    <AppText> {item.products_count} </AppText>
+                    <Ionicons name="fast-food" size={14} color="black" />
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      gap: 10,
+                      paddingHorizontal: 6,
+                      paddingVertical: 2,
+                      backgroundColor:
+                        item.offers_count > 0
+                          ? tailwindColors.green[400]
+                          : tailwindColors.gray[300],
+                      borderRadius: 10,
+                    }}
+                  >
+                    <AppText
+                      style={{
+                        fontSize: FONT_SIZE_SMALL,
+                        color: item.offers_count > 0 ? "white" : "black",
+                      }}
+                    >
+                      {item.offers_count}
+                    </AppText>
+                    <Fontisto
+                      name="shopping-package"
+                      size={14}
+                      color={item.offers_count > 0 ? "white" : "black"}
+                    />
+                  </View>
                 </View>
               </View>
             </TouchableOpacity>
@@ -130,6 +180,15 @@ function RestaurantSlider() {
 }
 
 const styles = StyleSheet.create({
+  headerRow: {
+    paddingHorizontal: 15,
+    width: "100%",
+  },
+  headerTitle: {
+    fontFamily: fonts["Montserrat-SemiBold"],
+    fontSize: FONT_SIZE_NORMAL,
+  },
+
   container: {
     justifyContent: "center",
     alignItems: "center",
@@ -139,7 +198,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    gap: 10,
+    gap: 10,marginTop:5
   },
   carouselContainer: {
     gap: 10,
@@ -150,6 +209,8 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     borderRadius: 20,
     backgroundColor: tailwindColors.neutral[50],
+    borderWidth: 2,
+    borderColor: tailwindColors.neutral[100],
     marginHorizontal: 5,
     flexDirection: "row",
     alignItems: "center",
@@ -159,6 +220,7 @@ const styles = StyleSheet.create({
   paginationDot: {
     backgroundColor: tailwindColors.neutral[200],
     borderRadius: 50,
+
     width: 8,
     height: 8,
   },
@@ -175,7 +237,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
 
     alignItems: "stretch",
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
     alignSelf: "stretch",
   },
   card_text_title: {
@@ -193,6 +255,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flex: 1,
     gap: 2,
+  },
+  card_products_count_container: {
+    flexDirection: "row",
+    alignItems: "baseline",
+    gap: 3,
   },
 });
 

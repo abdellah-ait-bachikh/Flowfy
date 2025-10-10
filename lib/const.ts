@@ -112,7 +112,7 @@ export const restaurantSliderData = [
     id: 3,
     name: "snack aboanasse",
     logo: defaultRestaurantLogo,
-    offers_count: 4,
+    offers_count: 0,
     adress: "rue hassan 2 hay elmasira ",
     rating: 3.5,
     products_count: 12,

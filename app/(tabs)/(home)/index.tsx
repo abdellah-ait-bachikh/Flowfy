@@ -21,7 +21,7 @@ const index = () => {
   useEffect(() => {
     async function waitLoading() {
       setLoading(true);
-      await new Promise((res) => setTimeout(res, 3000));
+      await new Promise((res) => setTimeout(res, 1000));
       setLoading(false);
     }
     waitLoading();
