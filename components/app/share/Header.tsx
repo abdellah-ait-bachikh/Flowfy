@@ -102,6 +102,7 @@ const makePhoneCall = async (number: string) => {
         onClose={close}
         title="Settings"
         snapPoints={[0.3, 0.6, 0.9]}
+        
       >
         <View style={styles.botton_sheet_content_style}>
           <Button

@@ -35,3 +35,4 @@ export const renderStars = (rating: number, maxStars = 5) => {
 export function formateMaxNumber(number: number, max: number):string {
   return number > max ? `+${max}` : `${number}`;
 }
+

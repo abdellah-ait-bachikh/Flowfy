@@ -14,6 +14,7 @@ import { fonts } from "@/lib/const";
 import { Spinner } from "@/components/ui/spinner";
 import AppText from "@/components/app/share/AppText";
 import ScreenLoading from "@/components/app/share/ScreenLoading";
+import RestaurantSlider from "@/components/app/screens/home/RestorantSlider";
 const index = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -28,7 +29,7 @@ const index = () => {
   return (
     <ScrollView contentContainerStyle={styles.screen}>
       {loading ? (
-       <ScreenLoading/>
+        <ScreenLoading />
       ) : (
         <>
           <TouchableOpacity
@@ -47,6 +48,7 @@ const index = () => {
             />
           </TouchableOpacity>
           <Categories />
+          <RestaurantSlider />
         </>
       )}
     </ScrollView>

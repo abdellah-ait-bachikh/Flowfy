@@ -63,7 +63,8 @@ const Categories = () => {
                 numberOfLines={2}
                 ellipsizeMode="tail"
               >
-                {item.name}
+                {item.name + " "}
+                {item.name}  {item.name}
               </AppText>
             </View>
           </TouchableOpacity>

@@ -11,8 +11,12 @@ const ScreenLoading = ({ label = "loading..." }: { label?: string }) => {
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <View style={{ gap: 5 }}>
         <Spinner color={appColors.yellow} size="xxl" variant="default" />
-        <AppText style={{ fontFamily: fonts["Montserrat-Medium"] ,fontSize:FONT_SIZE_MEDUIME}}>
-          
+        <AppText
+          style={{
+            fontFamily: fonts["Montserrat-Medium"],
+            fontSize: FONT_SIZE_MEDUIME,
+          }}
+        >
           {label}
         </AppText>
       </View>

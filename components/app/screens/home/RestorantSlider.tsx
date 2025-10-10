@@ -1,19 +1,38 @@
-import AppText from "@/components/ui/AppText";
-import { appColors, categories, tailwindColors } from "@/lib/const";
+import { categories, restaurantSliderData } from "@/lib/const";
 import * as React from "react";
-import { Dimensions, View, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  useWindowDimensions,
+  Image,
+} from "react-native";
 import { useSharedValue } from "react-native-reanimated";
 import Carousel, {
   ICarouselInstance,
   Pagination,
 } from "react-native-reanimated-carousel";
 import { Ionicons } from "@expo/vector-icons";
-
-const { width } = Dimensions.get("window");
-const ITEM_WIDTH = width * 0.8 - 10;
+import { appColors, tailwindColors } from "@/theme/colors";
+import AppText from "../../share/AppText";
+import defaultRestaurantLogo from "@/assets/images/icons/default-restaurant-logo.png";
+import {
+  FONT_SIZE_MEDUIME,
+  FONT_SIZE_NORMAL,
+  FONT_SIZE_SMALL,
+} from "@/theme/globals";
+import { Star } from "lucide-react-native";
+import { FontAwesome } from "@expo/vector-icons";
+import RatingStarts from "../../share/RatingStarts";
 function RestaurantSlider() {
   const ref = React.useRef<ICarouselInstance>(null);
   const progress = useSharedValue<number>(0);
+  const { width } = useWindowDimensions();
+
+  // Responsive ITEM_WIDTH
+  const ITEM_WIDTH = width >= 800 ? 600 : width * 0.8 - 10;
+  const ITEM_HEIGHT = width >= 800 ? 140 : 100;
+  const IMAGE_SIZE = width >= 800 ? 120 : 80;
 
   const onPressPagination = (index: number) => {
     ref.current?.scrollTo({
@@ -52,18 +71,38 @@ function RestaurantSlider() {
         <Carousel
           modeConfig={{
             snapDirection: "left",
-            stackInterval: 20, // spacing between items
+            stackInterval: 20,
           }}
-          containerStyle={styles.carouselContainer}
+          containerStyle={[styles.carouselContainer, { width: ITEM_WIDTH }]}
           ref={ref}
           width={ITEM_WIDTH}
-          height={ITEM_WIDTH / 2}
-          data={categories}
+          height={ITEM_HEIGHT}
+          data={restaurantSliderData}
           onProgressChange={progress}
           renderItem={({ item }) => (
-            <View style={[styles.carouselItem, { height: ITEM_WIDTH / 2 }]}>
-              <AppText style={styles.itemText}>{item.name}</AppText>
-            </View>
+            <TouchableOpacity style={[styles.carouselItem, { height: ITEM_HEIGHT }]}>
+              <Image
+                style={[
+                  styles.card_restaurant_logo,
+                  { width: IMAGE_SIZE, height: IMAGE_SIZE },
+                ]}
+                source={item.logo ? item.logo : defaultRestaurantLogo}
+              />
+
+              <View style={styles.card_text_container}>
+                <AppText
+                  style={styles.card_text_title}
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                >
+                  {item.name}
+                </AppText>
+                <View style={styles.card_rating}>
+                  <AppText> {item.rating} </AppText>
+                  <RatingStarts rating={item.rating} />
+                </View>
+              </View>
+            </TouchableOpacity>
           )}
         />
 
@@ -92,8 +131,9 @@ function RestaurantSlider() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: "center",
+    alignItems: "center",
+    marginTop: 10,
   },
   carouselWrapper: {
     flexDirection: "row",
@@ -101,26 +141,58 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 10,
   },
-  carouselContainer: { gap: 10, borderRadius: 20 },
+  carouselContainer: {
+    gap: 10,
+    borderRadius: 20,
+  },
   carouselItem: {
     flex: 1,
-    borderWidth: 0,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     borderRadius: 20,
     backgroundColor: tailwindColors.neutral[50],
     marginHorizontal: 5,
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 10,
   },
-  itemText: {
-    textAlign: "center",
-    fontSize: 20,
-  },
+
   paginationDot: {
     backgroundColor: tailwindColors.neutral[200],
     borderRadius: 50,
+    width: 8,
+    height: 8,
   },
   paginationContainer: {
+    flexDirection: "row",
     gap: 5,
     marginTop: 5,
+  },
+  card_restaurant_logo: {
+    resizeMode: "contain",
+  },
+  card_text_container: {
+    flex: 1,
+    marginLeft: 10,
+
+    alignItems: "stretch",
+    justifyContent: "flex-start",
+    alignSelf: "stretch",
+  },
+  card_text_title: {
+    width: "100%",
+    fontSize: FONT_SIZE_NORMAL,
+  },
+  card_rating: {
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+  },
+  card_rating_start_container: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
+    gap: 2,
   },
 });
 

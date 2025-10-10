@@ -2,6 +2,7 @@ import restaurant_logo from "@/assets/images/icons/restaurant.png";
 import supermarket_logo from "@/assets/images/icons/supermarket.png";
 import custom_logo from "@/assets/images/icons/custom.png";
 import fruitsVegetables from "@/assets/images/icons/fruits-vegetables.png";
+import defaultRestaurantLogo from "@/assets/images/icons/default-restaurant-logo.png";
 import {
   Bell,
   House,
@@ -92,7 +93,7 @@ export const restaurantSliderData = [
   {
     id: 1,
     name: "pokemone",
-    logo: null,
+    logo: defaultRestaurantLogo,
     offers_count: 2,
     adress: "rue hassan 2 hay elmasira ",
     rating: 4.6,
@@ -110,7 +111,7 @@ export const restaurantSliderData = [
   {
     id: 3,
     name: "snack aboanasse",
-    logo: null,
+    logo: defaultRestaurantLogo,
     offers_count: 4,
     adress: "rue hassan 2 hay elmasira ",
     rating: 3.5,
@@ -119,7 +120,7 @@ export const restaurantSliderData = [
   {
     id: 4,
     name: "snak flan flani dhd h dhhdhdd",
-    logo: null,
+    logo: defaultRestaurantLogo,
     offers_count: 1,
     adress: "rue hassan 2 hay elmasira ",
     rating: 5,
@@ -128,7 +129,7 @@ export const restaurantSliderData = [
   {
     id: 5,
     name: "Pokemone",
-    logo: null,
+    logo: defaultRestaurantLogo,
     offers_count: 12,
     adress: "rue hassan 2 hay elmasira ",
     rating: 2.4,
@@ -137,7 +138,7 @@ export const restaurantSliderData = [
   {
     id: 6,
     name: "Pokemone",
-    logo: null,
+    logo: defaultRestaurantLogo,
     offers_count: 6,
     adress: "rue hassan 2 hay elmasira ",
     rating: 3.5,
@@ -146,7 +147,7 @@ export const restaurantSliderData = [
   {
     id: 7,
     name: "Pokemone",
-    logo: null,
+    logo: defaultRestaurantLogo,
     offers_count: 10,
     adress: "rue hassan 2 hay elmasira ",
     rating: 4.6,
