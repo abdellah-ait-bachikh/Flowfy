@@ -1,6 +1,7 @@
 import restaurant_logo from "@/assets/images/icons/restaurant.png";
 import supermarket_logo from "@/assets/images/icons/supermarket.png";
 import custom_logo from "@/assets/images/icons/custom.png";
+import fruitsVegetables from "@/assets/images/icons/fruits-vegetables.png";
 import {
   Bell,
   House,
@@ -59,7 +60,7 @@ export const categories: {
   id: number;
   name: string;
   image: any;
-  href: "restaurants" | "supermarket" | "custom";
+  href: "restaurants" | "supermarket" | "fruits-vegetables" | "custom";
 }[] = [
   {
     id: 1,
@@ -75,6 +76,12 @@ export const categories: {
   },
   {
     id: 3,
+    name: "Fruits & Vegetables",
+    image: fruitsVegetables,
+    href: "fruits-vegetables",
+  },
+  {
+    id: 4,
     name: "custom",
     image: custom_logo,
     href: "custom",

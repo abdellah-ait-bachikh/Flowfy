@@ -9,7 +9,8 @@ import React from "react";
 import { SearchBar } from "@/components/ui/searchbar";
 import { tailwindColors } from "@/theme/colors";
 import { useRouter } from "expo-router";
-
+import Categories from "./.home/Categories";
+import { fonts } from "@/lib/const";
 const index = () => {
   const router = useRouter();
   return (
@@ -29,6 +30,7 @@ const index = () => {
           pointerEvents="none"
         />
       </TouchableOpacity>
+      <Categories />
     </ScrollView>
   );
 };
@@ -47,5 +49,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: tailwindColors.gray[300],
   },
-  search_input: {},
+  search_input: {
+    fontFamily: fonts["Montserrat-Medium"],
+    fontSize: 14,
+  },
 });

@@ -69,7 +69,7 @@ const makePhoneCall = async (number: string) => {
       "Could not open the dialer",
       [
         {
-          text: "Copy Number",
+          text: "📋 Copy Number n",
           onPress: async () => {
             await Clipboard.setStringAsync(number);
             Alert.alert("Copied", "Phone number copied to clipboard!");

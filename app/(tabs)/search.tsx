@@ -2,6 +2,7 @@ import { ScrollView, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import { SearchBar } from "@/components/ui/searchbar";
 import { tailwindColors } from "@/theme/colors";
+import { fonts } from "@/lib/const";
 
 const search = () => {
   const [isSearchLoading, setIsSearchLoading] = useState(false);
@@ -45,5 +46,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: tailwindColors.gray[300],
   },
-  search_input: {},
+  search_input: {    fontFamily:fonts["Montserrat-Medium"],fontSize:14
+  },
 });
