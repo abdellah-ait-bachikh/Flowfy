@@ -8,7 +8,14 @@ import { FONT_SIZE_MEDUIME, FONT_SIZE_TITLE } from "@/theme/globals";
 
 const ScreenLoading = ({ label = "loading..." }: { label?: string }) => {
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        height: 720,
+      }}
+    >
       <View style={{ gap: 5 }}>
         <Spinner color={appColors.yellow} size="xxl" variant="default" />
         <AppText

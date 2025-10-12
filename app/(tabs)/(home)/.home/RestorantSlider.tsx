@@ -14,7 +14,7 @@ import Carousel, {
 } from "react-native-reanimated-carousel";
 import { Fontisto, Ionicons } from "@expo/vector-icons";
 import { appColors, tailwindColors } from "@/theme/colors";
-import AppText from "../../share/AppText";
+import AppText from "../../../../components/app/share/AppText";
 import defaultRestaurantLogo from "@/assets/images/icons/default-restaurant-logo.png";
 import {
   FONT_SIZE_MEDUIME,
@@ -24,7 +24,7 @@ import {
 } from "@/theme/globals";
 import { Star } from "lucide-react-native";
 import { FontAwesome } from "@expo/vector-icons";
-import RatingStarts from "../../share/RatingStarts";
+import RatingStarts from "../../../../components/app/share/RatingStarts";
 import { Badge } from "@/components/ui/badge";
 import { useTranslation } from "react-i18next";
 function RestaurantSlider() {
@@ -181,12 +181,12 @@ function RestaurantSlider() {
 
 const styles = StyleSheet.create({
   headerRow: {
-    paddingHorizontal: 15,
+    paddingHorizontal: 10,
     width: "100%",
   },
   headerTitle: {
     fontFamily: fonts["Montserrat-SemiBold"],
-    fontSize: FONT_SIZE_NORMAL,
+    fontSize: FONT_SIZE_MEDUIME,
   },
 
   container: {
@@ -198,7 +198,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    gap: 10,marginTop:5
+    gap: 10,
+    marginTop: 5,
   },
   carouselContainer: {
     gap: 10,
@@ -208,7 +209,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-start",
     borderRadius: 20,
-    backgroundColor: tailwindColors.neutral[50],
+    // backgroundColor: tailwindColors.neutral[50],
     borderWidth: 2,
     borderColor: tailwindColors.neutral[100],
     marginHorizontal: 5,

@@ -10,11 +10,12 @@ import { SearchBar } from "@/components/ui/searchbar";
 import { appColors, tailwindColors } from "@/theme/colors";
 import { useRouter } from "expo-router";
 import Categories from "./.home/Categories";
+import RestaurantSlider from "./.home/RestorantSlider";
+import RankingFood from "./.home/RankingFood";
 import { fonts } from "@/lib/const";
 import { Spinner } from "@/components/ui/spinner";
 import AppText from "@/components/app/share/AppText";
 import ScreenLoading from "@/components/app/share/ScreenLoading";
-import RestaurantSlider from "@/components/app/screens/home/RestorantSlider";
 const index = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -27,7 +28,10 @@ const index = () => {
     waitLoading();
   }, []);
   return (
-    <ScrollView contentContainerStyle={styles.screen}>
+    <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
+      <View>
+        
+      </View>
       {loading ? (
         <ScreenLoading />
       ) : (
@@ -49,6 +53,7 @@ const index = () => {
           </TouchableOpacity>
           <Categories />
           <RestaurantSlider />
+          <RankingFood />
         </>
       )}
     </ScrollView>
@@ -59,7 +64,11 @@ export default index;
 
 const styles = StyleSheet.create({
   screen: {
-    flex: 1,
+    flex: 1, // Apply flex here
+  },
+  content: {
+    paddingBottom: 40, // Add bottom space so last item isn't cut off
+    position:"relative"
   },
   search_container: {
     paddingHorizontal: 10,

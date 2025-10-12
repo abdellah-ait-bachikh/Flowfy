@@ -55,6 +55,7 @@ export default function TabLayout() {
             shadowOpacity: 0,
             backgroundColor: "transparent",
             paddingHorizontal: 6,
+            paddingTop:5
           },
         }}
       >
