@@ -14,7 +14,7 @@ import Carousel, {
 } from "react-native-reanimated-carousel";
 import { Fontisto, Ionicons } from "@expo/vector-icons";
 import { appColors, tailwindColors } from "@/theme/colors";
-import AppText from "../../../../components/app/share/AppText";
+import AppText from "../../share/AppText";
 import defaultRestaurantLogo from "@/assets/images/icons/default-restaurant-logo.png";
 import {
   FONT_SIZE_MEDUIME,
@@ -24,9 +24,10 @@ import {
 } from "@/theme/globals";
 import { Star } from "lucide-react-native";
 import { FontAwesome } from "@expo/vector-icons";
-import RatingStarts from "../../../../components/app/share/RatingStarts";
+import RatingStarts from "../../share/RatingStarts";
 import { Badge } from "@/components/ui/badge";
 import { useTranslation } from "react-i18next";
+import { useRouter } from "expo-router";
 function RestaurantSlider() {
   const ref = React.useRef<ICarouselInstance>(null);
   const progress = useSharedValue<number>(0);
@@ -43,7 +44,7 @@ function RestaurantSlider() {
       animated: true,
     });
   };
-
+  const router = useRouter();
   const handlePrev = () => {
     ref.current?.scrollTo({
       count: -1,
@@ -57,7 +58,12 @@ function RestaurantSlider() {
       animated: true,
     });
   };
-
+  const handelNavigate = (id: string) => {
+    router.push({
+      pathname: "/(tabs)/(home)/restaurants/[id]",
+      params: { id },
+    });
+  };
   return (
     <View style={styles.container}>
       <View style={styles.headerRow}>
@@ -89,6 +95,7 @@ function RestaurantSlider() {
           renderItem={({ item }) => (
             <TouchableOpacity
               style={[styles.carouselItem, { height: ITEM_HEIGHT }]}
+              onPress={() => handelNavigate(`${item.id}`)}
             >
               <Image
                 style={[

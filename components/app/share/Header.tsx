@@ -80,6 +80,68 @@ const makePhoneCall = async (number: string) => {
     );
   }
 };
+
+const openWhatsApp = async (phoneNumber: string) => {
+  // Remove any non-digit characters from phone number
+  const cleanNumber = phoneNumber.replace(/\D/g, '');
+  
+  // Format: country code + number (without leading zeros)
+  let formattedNumber = cleanNumber;
+  
+  // If number starts with 0, replace with country code (Morocco: +212)
+  if (formattedNumber.startsWith('0')) {
+    formattedNumber = '212' + formattedNumber.substring(1);
+  }
+  
+  const url = `whatsapp://send?phone=${formattedNumber}`;
+  
+  try {
+    const supported = await Linking.canOpenURL(url);
+    
+    if (supported) {
+      await Linking.openURL(url);
+    } else {
+      // If WhatsApp is not installed, open in browser or show alternative
+      const webUrl = `https://wa.me/${formattedNumber}`;
+      const webSupported = await Linking.canOpenURL(webUrl);
+      
+      if (webSupported) {
+        await Linking.openURL(webUrl);
+      } else {
+        Alert.alert(
+          "WhatsApp Not Available",
+          "WhatsApp is not installed on your device. Please install WhatsApp or copy the phone number.",
+          [
+            {
+              text: "Copy Phone Number",
+              onPress: async () => {
+                await Clipboard.setStringAsync(phoneNumber);
+                Alert.alert("Copied", "Phone number copied to clipboard!");
+              },
+            },
+            { text: "OK", style: "cancel" },
+          ]
+        );
+      }
+    }
+  } catch (error) {
+    console.error("Error opening WhatsApp:", error);
+    Alert.alert(
+      "Error",
+      "Could not open WhatsApp. Please make sure WhatsApp is installed.",
+      [
+        {
+          text: "Copy Phone Number",
+          onPress: async () => {
+            await Clipboard.setStringAsync(phoneNumber);
+            Alert.alert("Copied", "Phone number copied to clipboard!");
+          },
+        },
+        { text: "OK", style: "cancel" },
+      ]
+    );
+  }
+};
   return (
     <View style={[styles.wrapper, { paddingTop: top }]}>
       <View style={styles.container}>
@@ -114,7 +176,7 @@ const makePhoneCall = async (number: string) => {
               <AppText style={styles.btn_text}>Start a Call</AppText>
             </View>
           </Button>
-          <Button style={{ backgroundColor: tailwindColors.emerald[200] }}>
+          <Button style={{ backgroundColor: tailwindColors.emerald[200] }} onPress={()=>openWhatsApp("+212628958346")}>
             <View style={styles.btn_content}>
               <FontAwesome name="whatsapp" size={24} color="black" />
               <AppText style={styles.btn_text}>
@@ -147,7 +209,6 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
 
     width: "100%",
-    backdropFilter: "blur(10px)",
   },
   logo: {
     width: 100,

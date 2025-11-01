@@ -9,12 +9,11 @@ import React, { useEffect, useState } from "react";
 import { SearchBar } from "@/components/ui/searchbar";
 import { appColors, tailwindColors } from "@/theme/colors";
 import { useRouter } from "expo-router";
-import Categories from "./.home/Categories";
-import RestaurantSlider from "./.home/RestorantSlider";
-import RankingFood from "./.home/RankingFood";
+import Categories from "../../../components/app/screens/home/Categories";
+import RestaurantSlider from "../../../components/app/screens/home/RestorantSlider";
+import RankingFood from "../../../components/app/screens/home/RankingFood";
 import { fonts } from "@/lib/const";
-import { Spinner } from "@/components/ui/spinner";
-import AppText from "@/components/app/share/AppText";
+
 import ScreenLoading from "@/components/app/share/ScreenLoading";
 const index = () => {
   const router = useRouter();
@@ -29,9 +28,7 @@ const index = () => {
   }, []);
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
-      <View>
-        
-      </View>
+      <View></View>
       {loading ? (
         <ScreenLoading />
       ) : (
@@ -68,7 +65,7 @@ const styles = StyleSheet.create({
   },
   content: {
     paddingBottom: 40, // Add bottom space so last item isn't cut off
-    position:"relative"
+    position: "relative",
   },
   search_container: {
     paddingHorizontal: 10,

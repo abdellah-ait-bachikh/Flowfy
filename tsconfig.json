@@ -11,6 +11,6 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
-    "app/(tabs)/(home)/.home/RestorantSlider.tsx"
+    "components/app/screens/home/RestorantSlider.tsx"
   ]
 }

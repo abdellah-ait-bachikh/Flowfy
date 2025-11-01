@@ -100,7 +100,6 @@ const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 2,
     borderColor: tailwindColors.neutral[100],
-   
   },
   imageContainer: {
     width: 40,
