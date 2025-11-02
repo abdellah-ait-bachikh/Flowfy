@@ -9,11 +9,13 @@ import * as Haptics from "expo-haptics";
 import { Tabs, usePathname } from "expo-router";
 
 import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Platform, useWindowDimensions } from "react-native";
 
 export default function TabLayout() {
   const primary = useColor("primary");
-  const { width } = useWindowDimensions();
+  // const { width } = useWindowDimensions();
+  const {t} = useTranslation()
   const pathname = usePathname();
 
   useEffect(() => {
@@ -32,7 +34,7 @@ export default function TabLayout() {
       <Tabs
         initialRouteName="(home)"
         screenOptions={{
-                animation: "none",
+          animation: "none",
           tabBarPosition: "bottom",
           tabBarActiveTintColor: primary,
           header: () => <Header />,
@@ -55,7 +57,7 @@ export default function TabLayout() {
             shadowOpacity: 0,
             backgroundColor: "transparent",
             paddingHorizontal: 6,
-            paddingTop:5
+            paddingTop: 5,
           },
         }}
       >
@@ -63,6 +65,7 @@ export default function TabLayout() {
           <Tabs.Screen
             name={item.name}
             options={{
+    freezeOnBlur: false, 
               title: item.label,
               tabBarItemStyle: {
                 borderRadius: 10,
@@ -111,7 +114,7 @@ export default function TabLayout() {
                   numberOfLines={1}
                   ellipsizeMode="clip"
                 >
-                  {item.label}
+                  {t(`tabs.${item.label}`)}
                 </Text>
               ),
             }}

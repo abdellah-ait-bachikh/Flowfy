@@ -23,6 +23,7 @@ import {
 import pizzaImg from '@/assets/images/pizza.jpg';
 import defaultRestaurantLogo from '@/assets/images/icons/default-restaurant-logo.png';
 import { useRouter } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 interface FoodItem {
   id: number;
@@ -40,6 +41,7 @@ interface FoodCardProps {
 const FoodCard: React.FC<FoodCardProps> = ({ item, width = 160 }) => {
   const [quantity, setQuantity] = useState<number>(0);
   const router = useRouter()
+  const {t} = useTranslation()
   const handleAddToBag = (): void => {
     setQuantity(1);
   };
@@ -96,7 +98,8 @@ const FoodCard: React.FC<FoodCardProps> = ({ item, width = 160 }) => {
             </View>
             
             <AppText style={styles.priceText} numberOfLines={2}>
-              <AppText style={styles.currencyText}>MAD </AppText>
+              <AppText style={styles.currencyText}>{t('components.cards.food-card.currency')}
+ </AppText>
               {item.price}
             </AppText>
           </View>
@@ -110,7 +113,8 @@ const FoodCard: React.FC<FoodCardProps> = ({ item, width = 160 }) => {
             style={styles.addButton} 
             onPress={handleAddToBag}
           >
-            <AppText style={styles.addButtonText}>Add to Bag</AppText>
+            <AppText style={styles.addButtonText}>{t('components.cards.food-card.add_to_bag')}
+</AppText>
           </TouchableOpacity>
         ) : (
           <View style={styles.quantityControls}>

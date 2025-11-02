@@ -7,23 +7,27 @@
     "profile": "Profile"
   },
   "screens": {
-          "index": { "title": "root welcome page", "explor_app": "Explore App" }
-,
+    "index": {
+      "title": "root welcome page",
+      "explor_app": "Explore App"
+    },
     "(tabs)": {
       "index": {
         "title": "tabs home page",
-        "btn_search_placehaulder": "Search for food, products, or more...",
+        "btn_search_placeholder": "Search for food, products, or more...",
         "horizontal_categories_scroll": {
           "title": "Categories",
           "name": {
             "restaurant": "Restaurants",
             "supermarket": "Supermarkets",
-            "custom": "Customs"
+            "custom": "Customs",
+            "fruits_vegetables": "Fruits & Vegetables"
           },
           "description": {
             "restaurant": "Fast food & meals",
-            "supermarket": "Groceries, staples, fruits & vegetables",
-            "custom": "Medicines, specialized orders"
+            "supermarket": "Groceries, staples",
+            "custom": "Medicines, specialized orders",
+            "fruits_vegetables": "Fresh fruits and vegetables"
           }
         },
         "horizontal_restaurant_scroll": {
@@ -33,17 +37,18 @@
             "offers": "offers"
           }
         },
-        "top_snackes": {
+        "top_snacks": {
           "title": "Popular",
           "more": "More",
           "items": {
             "offers": "offers"
-          }
+          },
+          "card": {}
         }
       },
       "search": {
         "title": "search page",
-        "btn_search_placehaulder": "Search for food, products, or more..."
+        "btn_search_placeholder": "Search for food, products, or more..."
       },
       "bag": { "title": "bag page" },
       "notifications": { "title": "notifications page" },
@@ -51,6 +56,15 @@
         "index": { "title": "profile page" },
         "details": { "index": {}, "orders": { "index": {}, "details": {} } }
       }
+    }
+  }
+  ,
+  "components":{
+    "cards":{
+       "food-card": {
+      "add_to_bag": "Add to Bag",
+      "currency": "MAD"
+    }
     }
   }
 }

@@ -56,34 +56,38 @@ export const tabs = [
 ] as const;
 
 export const user = null;
-
 export const categories: {
   id: number;
   name: string;
+  translationKey: string; // Add this field
   image: any;
   href: "restaurants" | "supermarket" | "fruits-vegetables" | "custom";
 }[] = [
   {
     id: 1,
     name: "restaurant",
+    translationKey: "restaurant", 
     image: restaurant_logo,
     href: "restaurants",
   },
   {
     id: 2,
     name: "supermarket",
+    translationKey: "supermarket", 
     image: supermarket_logo,
     href: "supermarket",
   },
   {
     id: 3,
     name: "Fruits & Vegetables",
+    translationKey: "fruits_vegetables", 
     image: fruitsVegetables,
     href: "fruits-vegetables",
   },
   {
     id: 4,
     name: "custom",
+    translationKey: "custom",
     image: custom_logo,
     href: "custom",
   },

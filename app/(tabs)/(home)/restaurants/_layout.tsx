@@ -5,6 +5,8 @@ export default function HomeLayout() {
     <Stack
       screenOptions={{
         headerShown: false,
+        freezeOnBlur: false,
+
         contentStyle: { backgroundColor: "transparent" },
         animation: "none",
       }}

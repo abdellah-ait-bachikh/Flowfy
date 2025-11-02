@@ -15,8 +15,11 @@ import RankingFood from "../../../components/app/screens/home/RankingFood";
 import { fonts } from "@/lib/const";
 
 import ScreenLoading from "@/components/app/share/ScreenLoading";
+import { useTranslation } from "react-i18next";
 const index = () => {
   const router = useRouter();
+  const { t } = useTranslation();
+
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     async function waitLoading() {
@@ -40,7 +43,7 @@ const index = () => {
             }}
           >
             <SearchBar
-              placeholder="Search for anything..."
+              placeholder={t("screens.(tabs).index.btn_search_placeholder")}
               loading={false}
               containerStyle={styles.search_wrapper}
               inputStyle={styles.search_input}

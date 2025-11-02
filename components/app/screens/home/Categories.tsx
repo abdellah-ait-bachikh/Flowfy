@@ -15,11 +15,13 @@ import {
 import { categories, fonts } from "@/lib/const";
 import { appColors, tailwindColors } from "@/theme/colors";
 import { useRouter } from "expo-router";
+import { useTranslation } from "react-i18next";
 
 const Categories = () => {
   const { width } = useWindowDimensions();
   const router = useRouter();
-  
+  const { t } = useTranslation();
+
   // Responsive column calculation
   const CONTAINER_PADDING = 10;
   const GAP = 10;
@@ -34,10 +36,41 @@ const Categories = () => {
   const totalGapWidth = (columns - 1) * GAP;
   const cardWidth = (availableWidth - totalGapWidth) / columns;
 
+  // Map category names to translation keys
+  const getTranslationKey = (categoryName: string) => {
+    const translationMap: { [key: string]: string } = {
+      "restaurant": "restaurant",
+      "supermarket": "supermarket", 
+      "custom": "custom",
+      "Fruits & Vegetables": "fruits_vegetables"
+    };
+    
+    return translationMap[categoryName] || categoryName.toLowerCase();
+  };
+
+  // Function to get translated category name
+  const getTranslatedName = (categoryName: string) => {
+    const translationKey = getTranslationKey(categoryName);
+    return t(`screens.(tabs).index.horizontal_categories_scroll.name.${translationKey}`, categoryName);
+  };
+
+  // Function to get translated category description
+  const getTranslatedDescription = (categoryName: string) => {
+    const translationKey = getTranslationKey(categoryName);
+    const description = t(`screens.(tabs).index.horizontal_categories_scroll.description.${translationKey}`, '');
+    
+    // Debug: log what's happening
+    console.log('Category:', categoryName, 'Key:', translationKey, 'Description:', description);
+    
+    return description;
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.title_container}>
-        <AppText style={styles.title}>Categories</AppText>
+        <AppText style={styles.title}>
+          {t('screens.(tabs).index.horizontal_categories_scroll.title')}
+        </AppText>
       </View>
       <View style={styles.cards_container}>
         <View style={[styles.gridContainer, { width: availableWidth }]}>
@@ -69,15 +102,14 @@ const Categories = () => {
                   numberOfLines={1}
                   ellipsizeMode="tail"
                 >
-                  {item.name}
+                  {getTranslatedName(item.name)}
                 </AppText>
                 <AppText
                   style={styles.cardDescription}
                   numberOfLines={2}
                   ellipsizeMode="tail"
                 >
-                  {item.name + " "}
-                  {item.name} {item.name}
+                  {getTranslatedDescription(item.name)}
                 </AppText>
               </View>
             </TouchableOpacity>
@@ -101,7 +133,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts["Montserrat-SemiBold"],
   },
   cards_container: {
-    alignItems: "center", // Center the grid
+    alignItems: "center",
   },
   gridContainer: {
     flexDirection: "row",

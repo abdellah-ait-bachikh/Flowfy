@@ -2,32 +2,32 @@
   "tabs": {
     "home": "Accueil",
     "search": "Recherche",
-    "bag": "Panier",
+    "bag": "Sac",
     "notifications": "Notifications",
     "profile": "Profil"
   },
   "screens": {
-   
-      "index": {
-        "title": "Page d'accueil principale",
-        "explor_app": "Explorer l'application"
-      }
-    ,
+    "index": {
+      "title": "page d'accueil principale",
+      "explor_app": "Explorer l'application"
+    },
     "(tabs)": {
       "index": {
-        "title": "Page d'accueil des onglets",
-        "btn_search_placehaulder": "Rechercher des plats ou produits...",
+        "title": "page d'accueil des onglets",
+        "btn_search_placeholder": "Rechercher de la nourriture, des produits ou plus...",
         "horizontal_categories_scroll": {
           "title": "Catégories",
           "name": {
             "restaurant": "Restaurants",
             "supermarket": "Supermarchés",
-            "custom": "Commandes spéciales"
+            "custom": "Personnalisé",
+            "fruits_vegetables": "Fruits et Légumes"
           },
           "description": {
-            "restaurant": "Restauration rapide & repas",
-            "supermarket": "Épicerie, produits de base, fruits & légumes",
-            "custom": "Médicaments, commandes spécialisées"
+            "restaurant": "Fast-food et repas",
+            "supermarket": "Épicerie, produits de base",
+            "custom": "Médicaments, commandes spécialisées",
+            "fruits_vegetables": "Fruits et légumes frais"
           }
         },
         "horizontal_restaurant_scroll": {
@@ -36,31 +36,32 @@
           "items": {
             "offers": "offres"
           }
-        },"top_snackes": {
-  "title": "Populaire",
-  "more": "Plus",
-  "items": {
-    "offers": "offres"
-  }
-}
-
-      },
-      "search": {
-        "title": "Page de recherche",
-        "btn_search_placehaulder": "Rechercher des plats ou produits..."
-      },
-      "bag": { "title": "Page du panier" },
-      "notifications": { "title": "Page des notifications" },
-      "profile": {
-        "index": { "title": "Page de profil" },
-        "details": {
-          "index": { "title": "Détails du profil" },
-          "orders": {
-            "index": { "title": "Commandes" },
-            "details": { "title": "Détails de la commande" }
+        },
+        "top_snacks": {
+          "title": "Populaire",
+          "more": "Plus",
+          "items": {
+            "offers": "offres"
           }
         }
+      },
+      "search": {
+        "title": "page de recherche",
+        "btn_search_placeholder": "Rechercher de la nourriture, des produits ou plus..."
+      },
+      "bag": { "title": "page du sac" },
+      "notifications": { "title": "page des notifications" },
+      "profile": {
+        "index": { "title": "page de profil" },
+        "details": { "index": {}, "orders": { "index": {}, "details": {} } }
       }
     }
+  },"components": {
+  "cards": {
+    "food-card": {
+      "add_to_bag": "Ajouter au panier",
+      "currency": "MAD"
+    }
   }
+}
 }

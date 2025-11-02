@@ -42,6 +42,8 @@ function RootLayout() {
           <Provider store={store}>
             <Stack
               screenOptions={{
+                    freezeOnBlur: false, 
+
                 headerShown: false,
                 animation: "none",
                 contentStyle: { flex: 1 },
