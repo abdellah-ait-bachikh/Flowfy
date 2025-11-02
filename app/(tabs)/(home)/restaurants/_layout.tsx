@@ -6,7 +6,7 @@ export default function HomeLayout() {
       screenOptions={{
         headerShown: false,
         contentStyle: { backgroundColor: "transparent" },
-        animation: "fade_from_bottom",
+        animation: "none",
       }}
     />
   );

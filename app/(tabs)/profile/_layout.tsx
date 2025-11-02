@@ -6,7 +6,7 @@ export default function ProfileLayout() {
       screenOptions={{
         headerShown: false,
         contentStyle: { backgroundColor: "transparent" },
-        animation: "none",
+                animation: "none",
       }}
     />
   );

@@ -22,6 +22,7 @@ import * as Clipboard from "expo-clipboard";
 
 const Header: React.FC = () => {
   const { top } = useSafeAreaInsets();
+  
   const pathname = usePathname();
   const router = useRouter();
   const { isVisible, open, close } = useBottomSheet();

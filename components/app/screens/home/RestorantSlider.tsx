@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-start",
     borderRadius: 20,
-    // backgroundColor: tailwindColors.neutral[50],
+    backgroundColor: appColors.white,
     borderWidth: 2,
     borderColor: tailwindColors.neutral[100],
     marginHorizontal: 5,
@@ -243,7 +243,6 @@ const styles = StyleSheet.create({
   card_text_container: {
     flex: 1,
     marginLeft: 10,
-
     alignItems: "stretch",
     justifyContent: "space-between",
     alignSelf: "stretch",
@@ -251,6 +250,7 @@ const styles = StyleSheet.create({
   card_text_title: {
     width: "100%",
     fontSize: FONT_SIZE_NORMAL,
+    fontFamily:fonts["Montserrat-Medium"]
   },
   card_rating: {
     width: "100%",

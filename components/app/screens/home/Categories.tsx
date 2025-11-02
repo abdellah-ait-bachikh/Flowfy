@@ -19,15 +19,20 @@ import { useRouter } from "expo-router";
 const Categories = () => {
   const { width } = useWindowDimensions();
   const router = useRouter();
-  // Determine number of columns based on screen width
-  let numColumns = 2;
-  if (width >= 800) numColumns = 4;
-  else if (width <= 350) numColumns = 1;
-
-  const containerPadding = 10;
-  const cardMargin = 5;
-  const cardWidth =
-    (width - containerPadding * 2 - cardMargin * 2 * numColumns) / numColumns;
+  
+  // Responsive column calculation
+  const CONTAINER_PADDING = 10;
+  const GAP = 10;
+  const CARD_WIDTH = 160; // Base card width
+  const MAX_COLUMNS = 4;
+  
+  const availableWidth = width - (CONTAINER_PADDING * 2);
+  const possibleColumns = Math.floor(availableWidth / (CARD_WIDTH + GAP));
+  const columns = Math.min(Math.max(possibleColumns, 1), MAX_COLUMNS);
+  
+  // Calculate actual card width to fit perfectly
+  const totalGapWidth = (columns - 1) * GAP;
+  const cardWidth = (availableWidth - totalGapWidth) / columns;
 
   return (
     <View style={styles.container}>
@@ -35,40 +40,49 @@ const Categories = () => {
         <AppText style={styles.title}>Categories</AppText>
       </View>
       <View style={styles.cards_container}>
-        {categories.map((item) => (
-          <TouchableOpacity
-            key={item.id}
-            style={[styles.card, { width: cardWidth, margin: cardMargin }]}
-            onPress={() => {
-              router.push(`/(tabs)/(home)/${item.href}`);
-            }}
-          >
-            <View style={styles.imageContainer}>
-              <Image
-                source={item.image}
-                style={styles.image}
-                resizeMode="contain"
-              />
-            </View>
-            <View style={{ flex: 1, justifyContent: "center" }}>
-              <AppText
-                style={styles.cardText}
-                numberOfLines={1}
-                ellipsizeMode="tail"
-              >
-                {item.name}
-              </AppText>
-              <AppText
-                style={styles.cardDescription}
-                numberOfLines={2}
-                ellipsizeMode="tail"
-              >
-                {item.name + " "}
-                {item.name} {item.name}
-              </AppText>
-            </View>
-          </TouchableOpacity>
-        ))}
+        <View style={[styles.gridContainer, { width: availableWidth }]}>
+          {categories.map((item, index) => (
+            <TouchableOpacity
+              key={item.id}
+              style={[
+                styles.card, 
+                { 
+                  width: cardWidth,
+                  marginRight: (index % columns !== columns - 1) ? GAP : 0,
+                  marginBottom: GAP
+                }
+              ]}
+              onPress={() => {
+                router.push(`/(tabs)/(home)/${item.href}`);
+              }}
+            >
+              <View style={styles.imageContainer}>
+                <Image
+                  source={item.image}
+                  style={styles.image}
+                  resizeMode="contain"
+                />
+              </View>
+              <View style={styles.textContainer}>
+                <AppText
+                  style={styles.cardText}
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                >
+                  {item.name}
+                </AppText>
+                <AppText
+                  style={styles.cardDescription}
+                  numberOfLines={2}
+                  ellipsizeMode="tail"
+                >
+                  {item.name + " "}
+                  {item.name} {item.name}
+                </AppText>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </View>
       </View>
     </View>
   );
@@ -87,9 +101,11 @@ const styles = StyleSheet.create({
     fontFamily: fonts["Montserrat-SemiBold"],
   },
   cards_container: {
+    alignItems: "center", // Center the grid
+  },
+  gridContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "flex-start",
   },
   card: {
     flexDirection: "row",
@@ -109,6 +125,10 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     height: "100%",
+  },
+  textContainer: {
+    flex: 1,
+    justifyContent: "center",
   },
   cardText: {
     fontSize: FONT_SIZE_SMALL,

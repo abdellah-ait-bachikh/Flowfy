@@ -32,7 +32,7 @@ export default function TabLayout() {
       <Tabs
         initialRouteName="(home)"
         screenOptions={{
-          animation: "fade",
+                animation: "none",
           tabBarPosition: "bottom",
           tabBarActiveTintColor: primary,
           header: () => <Header />,

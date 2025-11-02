@@ -1,14 +1,14 @@
 import AppText from "@/components/app/share/AppText";
 import { fonts } from "@/lib/const";
-import { tailwindColors } from "@/theme/colors";
+import { appColors, tailwindColors } from "@/theme/colors";
 import { FONT_SIZE_MEDUIME } from "@/theme/globals";
 import React from "react";
 import { View, StyleSheet, useWindowDimensions } from "react-native";
 import FoodCard from "@/components/app/share/FoodCard";
 
-const items = Array.from({ length: 20 }, (_, i) => ({
+const items = Array.from({ length: 10 }, (_, i) => ({
   id: i + 1,
-  name: `Food Item ${i + 1}`,
+  name: `Food Item ${i + 1} ${i===1 ? "hfjkdhfjkhdfjkdhfjkdhfdffdfdfdf" : "" }`,
   price: (20 + i * 0.5).toFixed(2),
   rating: (4 + Math.random() * 1).toFixed(1),
 }));
@@ -47,16 +47,16 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   title_container: {
-    marginBottom: 16,
   },
   title: {
     fontSize: FONT_SIZE_MEDUIME,
     fontFamily: fonts["Montserrat-SemiBold"],
-    color: tailwindColors.neutral[800],
+    color: appColors.black,
   },
   cards_container: {
     paddingBottom: 20,
     alignItems: "center",
+    marginTop:5
   },
   gridWrapper: {
     flexDirection: "row",

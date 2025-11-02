@@ -8,7 +8,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import logo from "@/assets/images/flowfy-bg-transparent-croped.png";
 import { Button } from "@/components/ui/button";
-import {  useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 const index = () => {
   const [ln, setLn] = useState("fr");
   const { i18n, t } = useTranslation();

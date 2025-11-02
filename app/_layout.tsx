@@ -43,7 +43,7 @@ function RootLayout() {
             <Stack
               screenOptions={{
                 headerShown: false,
-                animation: "fade_from_bottom",
+                animation: "none",
                 contentStyle: { flex: 1 },
               }}
               i18nIsDynamicList
