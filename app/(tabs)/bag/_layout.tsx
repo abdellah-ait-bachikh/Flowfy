@@ -1,9 +1,7 @@
-import CurrentBag from "@/components/app/share/CurrentBag";
 import { Stack } from "expo-router";
 
-export default function HomeLayout() {
-  return (<>        <CurrentBag />
-
+export default function BagLAyout() {
+  return (
     <Stack
       screenOptions={{
         freezeOnBlur: false,
@@ -11,6 +9,6 @@ export default function HomeLayout() {
         contentStyle: { backgroundColor: "transparent" },
         animation: "none",
       }}
-    /></>
+    />
   );
 }

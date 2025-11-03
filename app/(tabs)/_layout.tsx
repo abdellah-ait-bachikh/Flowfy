@@ -1,21 +1,25 @@
+import AppText from "@/components/app/share/AppText";
+import CurrentBag from "@/components/app/share/CurrentBag";
 import Header from "@/components/app/share/Header";
 import LinearGradientCmp from "@/components/app/share/LinearGradientCmp";
 import { Text } from "@/components/ui/text";
 import { useColor } from "@/hooks/useColor";
 import { tabs } from "@/lib/const";
 import { appColors, tailwindColors } from "@/theme/colors";
+import { Feather } from "@expo/vector-icons";
 import { PlatformPressable } from "@react-navigation/elements";
 import * as Haptics from "expo-haptics";
 import { Tabs, usePathname } from "expo-router";
+import { View } from "lucide-react-native";
 
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Platform, useWindowDimensions } from "react-native";
+import { Platform, TouchableOpacity, useWindowDimensions } from "react-native";
 
 export default function TabLayout() {
   const primary = useColor("primary");
   // const { width } = useWindowDimensions();
-  const {t} = useTranslation()
+  const { t } = useTranslation();
   const pathname = usePathname();
 
   useEffect(() => {
@@ -31,6 +35,7 @@ export default function TabLayout() {
         appColors.white,
       ]}
     >
+
       <Tabs
         initialRouteName="(home)"
         screenOptions={{
@@ -65,7 +70,7 @@ export default function TabLayout() {
           <Tabs.Screen
             name={item.name}
             options={{
-    freezeOnBlur: false, 
+              freezeOnBlur: false,
               title: item.label,
               tabBarItemStyle: {
                 borderRadius: 10,

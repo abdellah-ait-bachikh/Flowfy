@@ -27,25 +27,21 @@ export const tabs = [
   {
     label: "home",
     name: "(home)",
-    href: "/(tabs)/(home)",
     icon: House,
   },
   {
     label: "search",
     name: "search",
-    href: "/(tabs)/search",
     icon: Search,
   },
   {
     label: "bag",
     name: "bag",
-    href: "/(tabs)/bag",
     icon: ShoppingCart,
   },
   {
     label: "notifications",
     name: "notifications",
-    href: "/(tabs)/notifications",
     icon: Bell,
   },
   {

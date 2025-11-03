@@ -57,14 +57,13 @@
         "details": { "index": {}, "orders": { "index": {}, "details": {} } }
       }
     }
-  }
-  ,
-  "components":{
-    "cards":{
-       "food-card": {
-      "add_to_bag": "Add to Bag",
-      "currency": "MAD"
-    }
+  },
+  "components": {
+    "cards": {
+      "food-card": {
+        "add_to_bag": "Add to Bag",
+        "currency": "MAD"
+      }
     }
   }
 }

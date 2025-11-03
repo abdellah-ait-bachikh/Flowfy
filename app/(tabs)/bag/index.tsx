@@ -3,7 +3,6 @@ import {
   Text,
   View,
   TouchableOpacity,
-  ScrollView,
   SectionList,
   Linking,
 } from "react-native";
@@ -16,7 +15,10 @@ import {
   FONT_SIZE_NORMAL,
   FONT_SIZE_MEDUIME,
 } from "@/theme/globals";
-import { FontAwesome5, Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { Ionicons, Feather } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import { useRouter } from "expo-router";
+
 interface OrderItem {
   id: number;
   name: string;
@@ -26,6 +28,7 @@ interface OrderItem {
 
 interface BaseOrder {
   id: number;
+  orderNumber: string;
   status: string;
   statusText: string;
   restaurant: string;
@@ -34,6 +37,10 @@ interface BaseOrder {
   total: number;
   orderTime: string;
   address: string;
+  customer: {
+    fullName: string;
+    phone: string;
+  };
 }
 
 interface ActiveOrder extends BaseOrder {
@@ -58,12 +65,13 @@ interface OrderSection {
   data: Order[];
 }
 
-const bagData = [
+export const bagData = [
   {
     day: "2025 Monday 07/30",
     data: [
       {
         id: 1,
+        orderNumber: "ORD-7842-2025",
         status: "preparing",
         statusText: "Preparing your order",
         restaurant: "Pizza Palace",
@@ -77,6 +85,10 @@ const bagData = [
         orderTime: "10:30 AM",
         estimatedDelivery: "11:30 AM",
         address: "123 Main St, Apartment 4B",
+        customer: {
+          fullName: "John Smith",
+          phone: "+1234567890",
+        },
         deliveryPerson: {
           name: "John Doe",
           phone: "+1234567890",
@@ -85,6 +97,7 @@ const bagData = [
       },
       {
         id: 2,
+        orderNumber: "ORD-9153-2025",
         status: "on_the_way",
         statusText: "On the way",
         restaurant: "Burger Hub",
@@ -98,6 +111,10 @@ const bagData = [
         orderTime: "09:15 AM",
         estimatedDelivery: "10:00 AM",
         address: "123 Main St, Apartment 4B",
+        customer: {
+          fullName: "Sarah Johnson",
+          phone: "+1987654321",
+        },
         deliveryPerson: {
           name: "Mike Johnson",
           phone: "+1987654321",
@@ -111,6 +128,7 @@ const bagData = [
     data: [
       {
         id: 3,
+        orderNumber: "ORD-6291-2025",
         status: "delivered",
         statusText: "Delivered",
         restaurant: "Sushi Express",
@@ -124,6 +142,10 @@ const bagData = [
         orderTime: "07:20 PM",
         deliveredTime: "08:05 PM",
         address: "123 Main St, Apartment 4B",
+        customer: {
+          fullName: "Mike Chen",
+          phone: "+1122334455",
+        },
       },
     ],
   },
@@ -132,6 +154,7 @@ const bagData = [
     data: [
       {
         id: 4,
+        orderNumber: "ORD-4378-2025",
         status: "delivered",
         statusText: "Delivered",
         restaurant: "Taco Fiesta",
@@ -145,6 +168,10 @@ const bagData = [
         orderTime: "06:45 PM",
         deliveredTime: "07:30 PM",
         address: "123 Main St, Apartment 4B",
+        customer: {
+          fullName: "Emily Davis",
+          phone: "+1567890123",
+        },
       },
     ],
   },
@@ -154,6 +181,7 @@ const Bag = () => {
   const [orders, setOrders] = useState(bagData);
   const [stickyHeader, setStickyHeader] = useState(orders[0]?.day || "");
   const sectionListRef = useRef<SectionList>(null);
+  const router = useRouter();
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -186,10 +214,14 @@ const Bag = () => {
   };
 
   const handleCallDeliveryPerson = (phoneNumber: string) => {
-    // Open phone dialer with the delivery person's number
     Linking.openURL(`tel:${phoneNumber}`).catch((err) =>
       console.log("Error opening phone dialer:", err)
     );
+  };
+
+  const handleViewDetails = (order: Order) => {
+   
+    router.push({ pathname: "/(tabs)/bag/[id]", params: { id: order.id } });
   };
 
   const handleScroll = (event: any) => {
@@ -218,10 +250,14 @@ const Bag = () => {
     <View style={styles.orderCard}>
       {/* Order Header */}
       <View style={styles.orderHeader}>
-        <View style={styles.restaurantInfo}>
-          <Text style={styles.restaurantLogo}>{item.restaurantLogo}</Text>
+        <View style={styles.bagLogo}>
+          <Feather
+            name="shopping-bag"
+            color={tailwindColors.neutral[500]}
+            size={28}
+          />
           <View>
-            <Text style={styles.restaurantName}>{item.restaurant}</Text>
+            <Text style={styles.orderNumber}>{item.orderNumber}</Text>
             <Text style={styles.orderTime}>{item.orderTime}</Text>
           </View>
         </View>
@@ -250,30 +286,10 @@ const Bag = () => {
 
       {/* Order Details */}
       <View style={styles.orderDetails}>
-        <View style={styles.detailRow}>
-          <Text style={styles.detailLabel}>Total:</Text>
-          <Text style={styles.totalPrice}>${item.total.toFixed(2)}</Text>
-        </View>
-
         {item.status === "on_the_way" && (
-          <>
-            <View style={styles.detailRow}>
-              <Text style={styles.detailLabel}>Delivery Person:</Text>
-              <Text style={styles.detailValue}>{item.deliveryPerson.name}</Text>
-            </View>
-            <View style={styles.detailRow}>
-              <Text style={styles.detailLabel}>Vehicle:</Text>
-              <Text style={styles.detailValue}>
-                {item.deliveryPerson.vehicle}
-              </Text>
-            </View>
-          </>
-        )}
-
-        {item.status === "delivered" && (
           <View style={styles.detailRow}>
-            <Text style={styles.detailLabel}>Delivered:</Text>
-            <Text style={styles.detailValue}>{item.deliveredTime}</Text>
+            <Text style={styles.detailLabel}>Delivery Person:</Text>
+            <Text style={styles.detailValue}>{item.deliveryPerson.name}</Text>
           </View>
         )}
 
@@ -281,55 +297,81 @@ const Bag = () => {
           <Text style={styles.detailLabel}>Address:</Text>
           <Text style={styles.detailValue}>{item.address}</Text>
         </View>
+
+        <View style={styles.detailRow}>
+          <Text style={styles.detailLabel}>Total:</Text>
+          <Text style={styles.totalPrice}>${item.total.toFixed(2)}</Text>
+        </View>
       </View>
 
       {/* Action Buttons */}
-      <View style={styles.actionButtons}>
-        {item.status === "delivered" ? (
-          <TouchableOpacity
-            style={[styles.actionButton, styles.reorderButton]}
-            onPress={() => handleReorder(item.id)}
-          >
-            <Ionicons
-              name="refresh"
-              size={16}
-              color={tailwindColors.green[600]}
-            />
-            <Text
-              style={[
-                styles.actionButtonText,
-                { color: tailwindColors.green[600] },
-              ]}
-            >
-              Reorder
-            </Text>
-          </TouchableOpacity>
-        ) : (
-          // Show call button for preparing and on_the_way orders
-          item.deliveryPerson?.phone && (
-            <TouchableOpacity
-              style={[styles.actionButton, styles.callButton]}
-              onPress={() =>
-                handleCallDeliveryPerson(item.deliveryPerson.phone)
-              }
-            >
-              <Ionicons
-                name="call"
-                size={16}
-                color={tailwindColors.blue[600]}
-              />
-              <Text
-                style={[
-                  styles.actionButtonText,
-                  { color: tailwindColors.blue[600] },
-                ]}
-              >
-                Call Delivery
-              </Text>
-            </TouchableOpacity>
-          )
-        )}
-      </View>
+<View style={styles.actionButtons}>
+  {/* Only show View Details for delivered orders */}
+  {item.status === "delivered" && (
+    <TouchableOpacity
+      style={[styles.actionButton, styles.detailsButton]}
+      onPress={() => handleViewDetails(item)}
+    >
+      <Ionicons
+        name="document-text-outline"
+        size={16}
+        color={tailwindColors.gray[600]}
+      />
+      <Text
+        style={[
+          styles.actionButtonText,
+          { color: tailwindColors.gray[600] },
+        ]}
+      >
+        View Details
+      </Text>
+    </TouchableOpacity>
+  )}
+
+  {item.status === "delivered" ? (
+    <TouchableOpacity
+      style={[styles.actionButton, styles.reorderButton]}
+      onPress={() => handleReorder(item.id)}
+    >
+      <Ionicons
+        name="refresh"
+        size={16}
+        color={tailwindColors.green[600]}
+      />
+      <Text
+        style={[
+          styles.actionButtonText,
+          { color: tailwindColors.green[600] },
+        ]}
+      >
+        Reorder
+      </Text>
+    </TouchableOpacity>
+  ) : (
+    item.deliveryPerson?.phone && (
+      <TouchableOpacity
+        style={[styles.actionButton, styles.callButton]}
+        onPress={() =>
+          handleCallDeliveryPerson(item.deliveryPerson.phone)
+        }
+      >
+        <Ionicons
+          name="call"
+          size={16}
+          color={tailwindColors.blue[600]}
+        />
+        <Text
+          style={[
+            styles.actionButtonText,
+            { color: tailwindColors.blue[600] },
+          ]}
+        >
+          Call Delivery
+        </Text>
+      </TouchableOpacity>
+    )
+  )}
+</View>
     </View>
   );
 
@@ -341,6 +383,7 @@ const Bag = () => {
       <View style={styles.borderLine} />
     </View>
   );
+
   const allOrders = (orders as OrderSection[]).flatMap(
     (section) => section.data
   );
@@ -350,6 +393,7 @@ const Bag = () => {
   const pastOrders = allOrders.filter(
     (order): order is DeliveredOrder => order.status === "delivered"
   );
+
   return (
     <View style={styles.container}>
       {/* Header */}
@@ -472,17 +516,15 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "flex-start",
     marginBottom: 12,
+    gap: 10,
   },
-  restaurantInfo: {
+  bagLogo: {
     flexDirection: "row",
     alignItems: "center",
     flex: 1,
+    gap: 10,
   },
-  restaurantLogo: {
-    fontSize: 24,
-    marginRight: 12,
-  },
-  restaurantName: {
+  orderNumber: {
     fontSize: FONT_SIZE_SMALL,
     fontFamily: fonts["Montserrat-SemiBold"],
     color: tailwindColors.gray[800],
@@ -572,6 +614,10 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 1,
     gap: 4,
+  },
+  detailsButton: {
+    borderColor: tailwindColors.gray[300],
+    backgroundColor: tailwindColors.gray[50],
   },
   callButton: {
     borderColor: tailwindColors.blue[200],
