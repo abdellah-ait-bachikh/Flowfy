@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,58 +7,78 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import { tailwindColors, appColors } from '@/theme/colors';
-
-interface User {
-  id: string;
-  fullName: string;
-  phone: string;
-  email: string;
-  createdAt: string;
-  lastModified: string;
-}
-
-const staticUser: User = {
-  id: '1',
-  fullName: 'John Doe',
-  phone: '+1 (555) 123-4567',
-  email: 'john.doe@example.com',
-  createdAt: '2024-01-15T10:30:00Z',
-  lastModified: '2024-03-20T14:45:00Z',
-};
+import { useToast } from '@/components/ui/toast';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState, AppDispatch } from "@/redux/store"
+import { loginUser, logoutUser, getCurrentUser } from '@/redux/apiCalls/authApiCalls';
+import { initUserFromStore } from '@/redux/slices/authSlice';
 
 const ProfilePage = () => {
-  const [user, setUser] = useState<User | null>(staticUser);
-  const [isLogin, setIsLogin] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
+  const { toast } = useToast();
+  const { user, token } = useSelector((state: RootState) => state.auth);
+  
   const [loginData, setLoginData] = useState({
     phone: '',
     password: '',
   });
+  const [validationErrors, setValidationErrors] = useState<any>({});
   const [loading, setLoading] = useState(false);
+  const [initializing, setInitializing] = useState(true);
 
-  const handleLogin = async () => {
+  useEffect(() => {
+    // Initialize auth from storage
+    const initializeAuth = async () => {
+      try {
+        await dispatch(initUserFromStore() as any);
+      } finally {
+        setInitializing(false);
+      }
+    };
+    
+    initializeAuth();
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (token && !user) {
+      // If we have token but no user data, fetch user profile
+      const fetchUserProfile = async () => {
+        setLoading(true);
+        try {
+          await dispatch(getCurrentUser(setLoading, toast) as any);
+        } finally {
+          setLoading(false);
+        }
+      };
+      
+      fetchUserProfile();
+    }
+  }, [token, user, dispatch, toast]);
+
+  const handleLogin = () => {
     if (!loginData.phone || !loginData.password) {
-      Alert.alert('Error', 'Please fill in all fields');
+      toast({
+        title: 'Error',
+        description: 'Please fill in all fields',
+        variant: 'error',
+      });
       return;
     }
 
-    setLoading(true);
-
-    // Simulate API call
-    setTimeout(() => {
-      setLoading(false);
-      
-      // For demo purposes, login with any phone and password "123456"
-      if (loginData.password === '123456') {
-        setUser(staticUser);
-        setIsLogin(false);
+    dispatch(loginUser(
+      loginData,
+      setLoading,
+      setValidationErrors,
+      toast,
+      () => {
+        // Login success callback
         setLoginData({ phone: '', password: '' });
-        Alert.alert('Success', 'Logged in successfully!');
-      } else {
-        Alert.alert('Error', 'Invalid phone number or password');
+        setValidationErrors({});
       }
-    }, 1500);
+    ) as any);
   };
 
   const handleLogout = () => {
@@ -71,8 +91,9 @@ const ProfilePage = () => {
           text: 'Logout',
           style: 'destructive',
           onPress: () => {
-            setUser(null);
-            Alert.alert('Success', 'Logged out successfully!');
+            setLoading(true);
+            dispatch(logoutUser(toast) as any);
+            // Note: The loading state will be handled by the API call
           },
         },
       ]
@@ -89,6 +110,16 @@ const ProfilePage = () => {
       minute: '2-digit',
     });
   };
+
+  // Show loading indicator while initializing
+  if (initializing) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color={tailwindColors.blue[500]} />
+        <Text style={styles.loadingText}>Loading...</Text>
+      </View>
+    );
+  }
 
   if (user) {
     return (
@@ -143,8 +174,16 @@ const ProfilePage = () => {
           </View>
 
           {/* Logout Button */}
-          <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-            <Text style={styles.logoutButtonText}>Logout</Text>
+          <TouchableOpacity 
+            style={[styles.logoutButton, loading && styles.buttonDisabled]} 
+            onPress={handleLogout}
+            disabled={loading}
+          >
+            {loading ? (
+              <ActivityIndicator size="small" color="white" />
+            ) : (
+              <Text style={styles.logoutButtonText}>Logout</Text>
+            )}
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -168,28 +207,48 @@ const ProfilePage = () => {
         <View style={styles.inputGroup}>
           <Text style={styles.inputLabel}>Phone Number</Text>
           <TextInput
-            style={styles.textInput}
+            style={[styles.textInput, validationErrors.phone && styles.inputError]}
             placeholder="Enter your phone number"
             placeholderTextColor={tailwindColors.neutral[400]}
             value={loginData.phone}
-            onChangeText={(text) => setLoginData(prev => ({ ...prev, phone: text }))}
+            onChangeText={(text) => {
+              setLoginData(prev => ({ ...prev, phone: text }));
+              // Clear validation error when user starts typing
+              if (validationErrors.phone) {
+                setValidationErrors(prev => ({ ...prev, phone: undefined }));
+              }
+            }}
             keyboardType="phone-pad"
             autoCapitalize="none"
+            editable={!loading}
           />
+          {validationErrors.phone && (
+            <Text style={styles.errorText}>{validationErrors.phone}</Text>
+          )}
         </View>
 
         {/* Password Input */}
         <View style={styles.inputGroup}>
           <Text style={styles.inputLabel}>Password</Text>
           <TextInput
-            style={styles.textInput}
+            style={[styles.textInput, validationErrors.password && styles.inputError]}
             placeholder="Enter your password"
             placeholderTextColor={tailwindColors.neutral[400]}
             value={loginData.password}
-            onChangeText={(text) => setLoginData(prev => ({ ...prev, password: text }))}
+            onChangeText={(text) => {
+              setLoginData(prev => ({ ...prev, password: text }));
+              // Clear validation error when user starts typing
+              if (validationErrors.password) {
+                setValidationErrors(prev => ({ ...prev, password: undefined }));
+              }
+            }}
             secureTextEntry
             autoCapitalize="none"
+            editable={!loading}
           />
+          {validationErrors.password && (
+            <Text style={styles.errorText}>{validationErrors.password}</Text>
+          )}
         </View>
 
         {/* Demo Info */}
@@ -200,23 +259,29 @@ const ProfilePage = () => {
 
         {/* Login Button */}
         <TouchableOpacity
-          style={[styles.loginButton, loading && styles.loginButtonDisabled]}
+          style={[styles.loginButton, loading && styles.buttonDisabled]}
           onPress={handleLogin}
           disabled={loading}
         >
-          <Text style={styles.loginButtonText}>
-            {loading ? 'Logging in...' : 'Login'}
-          </Text>
+          {loading ? (
+            <ActivityIndicator size="small" color="white" />
+          ) : (
+            <Text style={styles.loginButtonText}>Login</Text>
+          )}
         </TouchableOpacity>
 
         {/* Additional Options */}
         <View style={styles.loginOptions}>
-          <TouchableOpacity style={styles.optionButton}>
-            <Text style={styles.optionText}>Forgot Password?</Text>
+          <TouchableOpacity style={styles.optionButton} disabled={loading}>
+            <Text style={[styles.optionText, loading && styles.optionTextDisabled]}>
+              Forgot Password?
+            </Text>
           </TouchableOpacity>
           
-          <TouchableOpacity style={styles.optionButton}>
-            <Text style={styles.optionText}>Create New Account</Text>
+          <TouchableOpacity style={styles.optionButton} disabled={loading}>
+            <Text style={[styles.optionText, loading && styles.optionTextDisabled]}>
+              Create New Account
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -227,12 +292,23 @@ const ProfilePage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: appColors.white,
+    backgroundColor: appColors.white,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: appColors.white,
+  },
+  loadingText: {
+    marginTop: 16,
+    fontSize: 16,
+    color: tailwindColors.neutral[600],
   },
   header: {
     paddingHorizontal: 20,
     paddingVertical: 24,
-    // backgroundColor: tailwindColors.neutral[50],
+    backgroundColor: tailwindColors.neutral[50],
     borderBottomWidth: 1,
     borderBottomColor: tailwindColors.neutral[200],
   },
@@ -255,7 +331,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 32,
-    gap: 16, // 10px gap between avatar and user info
+    gap: 16,
   },
   avatar: {
     width: 80,
@@ -321,6 +397,8 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     alignItems: 'center',
     marginTop: 24,
+    minHeight: 50,
+    justifyContent: 'center',
   },
   logoutButtonText: {
     color: 'white',
@@ -357,6 +435,15 @@ const styles = StyleSheet.create({
     color: tailwindColors.neutral[800],
     backgroundColor: appColors.white,
   },
+  inputError: {
+    borderColor: tailwindColors.red[500],
+  },
+  errorText: {
+    color: tailwindColors.red[500],
+    fontSize: 12,
+    marginTop: 4,
+    marginLeft: 4,
+  },
   demoInfo: {
     backgroundColor: tailwindColors.blue[50],
     padding: 16,
@@ -380,8 +467,10 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     borderRadius: 12,
     alignItems: 'center',
+    minHeight: 50,
+    justifyContent: 'center',
   },
-  loginButtonDisabled: {
+  buttonDisabled: {
     backgroundColor: tailwindColors.neutral[400],
   },
   loginButtonText: {
@@ -401,6 +490,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: tailwindColors.blue[600],
     fontWeight: '500',
+  },
+  optionTextDisabled: {
+    color: tailwindColors.neutral[400],
   },
 });
 

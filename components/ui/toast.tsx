@@ -27,6 +27,7 @@ import Animated, {
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export type ToastVariant = 'default' | 'success' | 'error' | 'warning' | 'info';
 
@@ -70,6 +71,7 @@ export function Toast({
   action,
 }: ToastProps) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const insets = useSafeAreaInsets();
 
   // Reanimated shared values
   const translateY = useSharedValue(-100);
@@ -82,7 +84,7 @@ export function Toast({
   const contentOpacity = useSharedValue(0);
 
   // Dynamic Island colors (dark theme optimized)
-  const backgroundColor = '#1C1C1E'; // iOS Dynamic Island background
+  const backgroundColor = '#ffffffff'; // iOS Dynamic Island background
   const mutedTextColor = '#8E8E93'; // iOS secondary text color
 
   useEffect(() => {
@@ -194,8 +196,10 @@ export function Toast({
     });
 
   const getTopPosition = () => {
-    const statusBarHeight = Platform.OS === 'ios' ? 59 : 20;
-    return statusBarHeight + index * (EXPANDED_HEIGHT + TOAST_MARGIN);
+    // Use safe area insets for proper positioning
+    const topInset = insets.top;
+    const basePosition = topInset + (index * (EXPANDED_HEIGHT + TOAST_MARGIN));
+    return basePosition;
   };
 
   // Animated styles
@@ -356,6 +360,7 @@ interface ToastProviderProps {
 
 export function ToastProvider({ children, maxToasts = 3 }: ToastProviderProps) {
   const [toasts, setToasts] = useState<ToastData[]>([]);
+  const insets = useSafeAreaInsets();
 
   const generateId = () => Math.random().toString(36).substr(2, 9);
 
@@ -418,7 +423,7 @@ export function ToastProvider({ children, maxToasts = 3 }: ToastProviderProps) {
 
   const containerStyle: ViewStyle = {
     position: 'absolute',
-    top: 0,
+    top: insets.top, // Use safe area top inset
     left: 0,
     right: 0,
     zIndex: 1000,

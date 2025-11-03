@@ -9,6 +9,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "react-native-reanimated";
 import { Provider } from "react-redux";
 import { useFonts } from "expo-font";
+import { ToastProvider } from "@/components/ui/toast";
 
 function RootLayout() {
   const [loaded] = useFonts({
@@ -38,25 +39,27 @@ function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeProvider>
-        <NotificationProvider>
-          <Provider store={store}>
-            <Stack
-              screenOptions={{
-                    freezeOnBlur: false, 
+        <ToastProvider  >
+          <NotificationProvider>
+            <Provider store={store}>
+              <Stack
+                screenOptions={{
+                  freezeOnBlur: false,
 
-                headerShown: false,
-                animation: "none",
-                contentStyle: { flex: 1 },
-              }}
-              i18nIsDynamicList
-            >
-              <Stack.Screen name="index" />
-              <Stack.Screen name="(tabs)" />
-              <Stack.Screen name="+not-found" />
-            </Stack>
-          </Provider>
-        </NotificationProvider>
-        <StatusBar style="auto" />
+                  headerShown: false,
+                  animation: "none",
+                  contentStyle: { flex: 1 },
+                }}
+                i18nIsDynamicList
+              >
+                <Stack.Screen name="index" />
+                <Stack.Screen name="(tabs)" />
+                <Stack.Screen name="+not-found" />
+              </Stack>
+            </Provider>
+          </NotificationProvider>
+          <StatusBar style="auto" />
+        </ToastProvider>
       </ThemeProvider>
     </GestureHandlerRootView>
   );

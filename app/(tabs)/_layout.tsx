@@ -1,20 +1,16 @@
-import AppText from "@/components/app/share/AppText";
-import CurrentBag from "@/components/app/share/CurrentBag";
 import Header from "@/components/app/share/Header";
 import LinearGradientCmp from "@/components/app/share/LinearGradientCmp";
 import { Text } from "@/components/ui/text";
 import { useColor } from "@/hooks/useColor";
 import { tabs } from "@/lib/const";
 import { appColors, tailwindColors } from "@/theme/colors";
-import { Feather } from "@expo/vector-icons";
 import { PlatformPressable } from "@react-navigation/elements";
 import * as Haptics from "expo-haptics";
 import { Tabs, usePathname } from "expo-router";
-import { View } from "lucide-react-native";
 
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Platform, TouchableOpacity, useWindowDimensions } from "react-native";
+import { Platform } from "react-native";
 
 export default function TabLayout() {
   const primary = useColor("primary");
