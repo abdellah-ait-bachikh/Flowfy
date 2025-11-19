@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from "@/redux/store"
 import { loginUser, logoutUser, getCurrentUser } from '@/redux/apiCalls/authApiCalls';
 import { initUserFromStore } from '@/redux/slices/authSlice';
+import AppText from '@/components/app/share/AppText';
 
 const ProfilePage = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -116,7 +117,7 @@ const ProfilePage = () => {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color={tailwindColors.blue[500]} />
-        <Text style={styles.loadingText}>Loading...</Text>
+        <AppText style={styles.loadingText}>Loading...</AppText>
       </View>
     );
   }
@@ -129,47 +130,47 @@ const ProfilePage = () => {
           {/* Avatar and User Info Row */}
           <View style={styles.userHeader}>
             <View style={styles.avatar}>
-              <Text style={styles.avatarText}>
+              <AppText style={styles.avatarText}>
                 {user.fullName.split(' ').map(n => n[0]).join('')}
-              </Text>
+              </AppText>
             </View>
             <View style={styles.userInfo}>
-              <Text style={styles.userName}>{user.fullName}</Text>
-              <Text style={styles.userEmail}>{user.email}</Text>
+              <AppText style={styles.userName}>{user.fullName}</AppText>
+              <AppText style={styles.userEmail}>{user.email}</AppText>
             </View>
           </View>
 
           {/* Information Sections */}
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Contact Information</Text>
+            <AppText style={styles.sectionTitle}>Contact Information</AppText>
             
             <View style={styles.infoRow}>
-              <Text style={styles.infoLabel}>Phone Number</Text>
-              <Text style={styles.infoValue}>{user.phone}</Text>
+              <AppText style={styles.infoLabel}>Phone Number</AppText>
+              <AppText style={styles.infoValue}>{user.phone}</AppText>
             </View>
 
             <View style={styles.infoRow}>
-              <Text style={styles.infoLabel}>Email Address</Text>
-              <Text style={styles.infoValue}>{user.email}</Text>
+              <AppText style={styles.infoLabel}>Email Address</AppText>
+              <AppText style={styles.infoValue}>{user.email}</AppText>
             </View>
           </View>
 
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Account Information</Text>
+            <AppText style={styles.sectionTitle}>Account Information</AppText>
             
             <View style={styles.infoRow}>
-              <Text style={styles.infoLabel}>Member Since</Text>
-              <Text style={styles.infoValue}>{formatDate(user.createdAt)}</Text>
+              <AppText style={styles.infoLabel}>Member Since</AppText>
+              <AppText style={styles.infoValue}>{formatDate(user.createdAt)}</AppText>
             </View>
 
             <View style={styles.infoRow}>
-              <Text style={styles.infoLabel}>Last Updated</Text>
-              <Text style={styles.infoValue}>{formatDate(user.lastModified)}</Text>
+              <AppText style={styles.infoLabel}>Last Updated</AppText>
+              <AppText style={styles.infoValue}>{formatDate(user.lastModified)}</AppText>
             </View>
 
             <View style={styles.infoRow}>
-              <Text style={styles.infoLabel}>User ID</Text>
-              <Text style={styles.infoValue}>{user.id}</Text>
+              <AppText style={styles.infoLabel}>User ID</AppText>
+              <AppText style={styles.infoValue}>{user.id}</AppText>
             </View>
           </View>
 
@@ -182,7 +183,7 @@ const ProfilePage = () => {
             {loading ? (
               <ActivityIndicator size="small" color="white" />
             ) : (
-              <Text style={styles.logoutButtonText}>Logout</Text>
+              <AppText style={styles.logoutButtonText}>Logout</AppText>
             )}
           </TouchableOpacity>
         </View>
@@ -195,17 +196,17 @@ const ProfilePage = () => {
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Welcome</Text>
-        <Text style={styles.headerSubtitle}>Please login to continue</Text>
+        <AppText style={styles.headerTitle}>Welcome</AppText>
+        <AppText style={styles.headerSubtitle}>Please login to continue</AppText>
       </View>
 
       {/* Login Card */}
       <View style={styles.loginCard}>
-        <Text style={styles.loginTitle}>Login to Your Account</Text>
+        <AppText style={styles.loginTitle}>Login to Your Account</AppText>
 
         {/* Phone Input */}
         <View style={styles.inputGroup}>
-          <Text style={styles.inputLabel}>Phone Number</Text>
+          <AppText style={styles.inputLabel}>Phone Number</AppText>
           <TextInput
             style={[styles.textInput, validationErrors.phone && styles.inputError]}
             placeholder="Enter your phone number"
@@ -223,13 +224,13 @@ const ProfilePage = () => {
             editable={!loading}
           />
           {validationErrors.phone && (
-            <Text style={styles.errorText}>{validationErrors.phone}</Text>
+            <AppText style={styles.errorText}>{validationErrors.phone}</AppText>
           )}
         </View>
 
         {/* Password Input */}
         <View style={styles.inputGroup}>
-          <Text style={styles.inputLabel}>Password</Text>
+          <AppText style={styles.inputLabel}>Password</AppText>
           <TextInput
             style={[styles.textInput, validationErrors.password && styles.inputError]}
             placeholder="Enter your password"
@@ -247,14 +248,14 @@ const ProfilePage = () => {
             editable={!loading}
           />
           {validationErrors.password && (
-            <Text style={styles.errorText}>{validationErrors.password}</Text>
+            <AppText style={styles.errorText}>{validationErrors.password}</AppText>
           )}
         </View>
 
         {/* Demo Info */}
         <View style={styles.demoInfo}>
-          <Text style={styles.demoTitle}>Demo Credentials:</Text>
-          <Text style={styles.demoText}>Any phone number + Password: 123456</Text>
+          <AppText style={styles.demoTitle}>Demo Credentials:</AppText>
+          <AppText style={styles.demoText}>Any phone number + Password: 123456</AppText>
         </View>
 
         {/* Login Button */}
@@ -266,22 +267,22 @@ const ProfilePage = () => {
           {loading ? (
             <ActivityIndicator size="small" color="white" />
           ) : (
-            <Text style={styles.loginButtonText}>Login</Text>
+            <AppText style={styles.loginButtonText}>Login</AppText>
           )}
         </TouchableOpacity>
 
         {/* Additional Options */}
         <View style={styles.loginOptions}>
           <TouchableOpacity style={styles.optionButton} disabled={loading}>
-            <Text style={[styles.optionText, loading && styles.optionTextDisabled]}>
+            <AppText style={[styles.optionText, loading && styles.optionTextDisabled]}>
               Forgot Password?
-            </Text>
+            </AppText>
           </TouchableOpacity>
           
           <TouchableOpacity style={styles.optionButton} disabled={loading}>
-            <Text style={[styles.optionText, loading && styles.optionTextDisabled]}>
+            <AppText style={[styles.optionText, loading && styles.optionTextDisabled]}>
               Create New Account
-            </Text>
+            </AppText>
           </TouchableOpacity>
         </View>
       </View>
@@ -292,13 +293,11 @@ const ProfilePage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: appColors.white,
   },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: appColors.white,
   },
   loadingText: {
     marginTop: 16,
@@ -308,7 +307,7 @@ const styles = StyleSheet.create({
   header: {
     paddingHorizontal: 20,
     paddingVertical: 24,
-    backgroundColor: tailwindColors.neutral[50],
+    // backgroundColor: tailwindColors.neutral[50],
     borderBottomWidth: 1,
     borderBottomColor: tailwindColors.neutral[200],
   },

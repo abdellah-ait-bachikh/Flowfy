@@ -5,8 +5,8 @@ export default function HomeLayout() {
   return (<>        <CurrentBag />
 
     <Stack
-      screenOptions={{
-        freezeOnBlur: false,
+      screenOptions={{                  freezeOnBlur: false,
+
         headerShown: false,
         contentStyle: { backgroundColor: "transparent" },
         animation: "none",

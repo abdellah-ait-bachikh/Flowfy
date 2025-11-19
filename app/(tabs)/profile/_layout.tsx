@@ -4,7 +4,7 @@ export default function ProfileLayout() {
   return (
     <Stack
       screenOptions={{
-            freezeOnBlur: false, 
+                  freezeOnBlur: false,
 
         headerShown: false,
         contentStyle: { backgroundColor: "transparent" },

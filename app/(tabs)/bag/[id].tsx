@@ -19,6 +19,7 @@ import {
 } from "@/theme/globals";
 import { Ionicons, Feather } from "@expo/vector-icons";
 import { bagData } from "./index"; 
+import AppText from "@/components/app/share/AppText";
 
 interface OrderItem {
   id: number;
@@ -174,7 +175,7 @@ const BagDetails = () => {
   if (!order) {
     return (
       <View style={styles.container}>
-        <Text style={styles.loadingText}>Loading order...</Text>
+        <AppText style={styles.loadingText}>Loading order...</AppText>
       </View>
     );
   }
@@ -204,7 +205,7 @@ const BagDetails = () => {
             color={tailwindColors.gray[700]}
           />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Order Details</Text>
+        <AppText style={styles.headerTitle}>Order Details</AppText>
         <View style={styles.headerRight} />
       </View>
 
@@ -212,11 +213,11 @@ const BagDetails = () => {
       <View style={styles.section}>
         <View style={styles.orderHeader}>
           <View style={styles.orderInfo}>
-            <Text style={styles.orderNumber}>{currentOrder.orderNumber}</Text>
-            <Text style={styles.restaurantName}>{currentOrder.restaurant}</Text>
-            <Text style={styles.orderTime}>
+            <AppText style={styles.orderNumber}>{currentOrder.orderNumber}</AppText>
+            <AppText style={styles.restaurantName}>{currentOrder.restaurant}</AppText>
+            <AppText style={styles.orderTime}>
               Ordered at {currentOrder.orderTime}
-            </Text>
+            </AppText>
           </View>
           <View
             style={[
@@ -224,23 +225,23 @@ const BagDetails = () => {
               { backgroundColor: getStatusColor(currentOrder.status) },
             ]}
           >
-            <Text style={styles.statusText}>{currentOrder.statusText}</Text>
+            <AppText style={styles.statusText}>{currentOrder.statusText}</AppText>
           </View>
         </View>
 
         {currentOrder.estimatedDelivery && (
           <View style={styles.estimatedDelivery}>
-            <Text style={styles.estimatedDeliveryText}>
+            <AppText style={styles.estimatedDeliveryText}>
               Estimated delivery: {currentOrder.estimatedDelivery}
-            </Text>
+            </AppText>
           </View>
         )}
 
         {currentOrder.deliveredTime && (
           <View style={styles.deliveredInfo}>
-            <Text style={styles.deliveredText}>
+            <AppText style={styles.deliveredText}>
               Delivered at: {currentOrder.deliveredTime}
-            </Text>
+            </AppText>
           </View>
         )}
       </View>
@@ -248,16 +249,16 @@ const BagDetails = () => {
       {/* Customer Information */}
       <View style={styles.section}>
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Customer Information</Text>
+          <AppText style={styles.sectionTitle}>Customer Information</AppText>
           <TouchableOpacity onPress={() => setIsEditing(!isEditing)}>
-            <Text style={styles.editButton}>
+            <AppText style={styles.editButton}>
               {isEditing ? "Cancel" : "Edit"}
-            </Text>
+            </AppText>
           </TouchableOpacity>
         </View>
 
         <View style={styles.inputGroup}>
-          <Text style={styles.inputLabel}>Full Name</Text>
+          <AppText style={styles.inputLabel}>Full Name</AppText>
           {isEditing ? (
             <TextInput
               style={styles.textInput}
@@ -266,14 +267,14 @@ const BagDetails = () => {
               placeholder="Enter full name"
             />
           ) : (
-            <Text style={styles.inputValue}>
+            <AppText style={styles.inputValue}>
               {currentOrder.customer.fullName}
-            </Text>
+            </AppText>
           )}
         </View>
 
         <View style={styles.inputGroup}>
-          <Text style={styles.inputLabel}>Phone Number</Text>
+          <AppText style={styles.inputLabel}>Phone Number</AppText>
           {isEditing ? (
             <TextInput
               style={styles.textInput}
@@ -283,12 +284,12 @@ const BagDetails = () => {
               keyboardType="phone-pad"
             />
           ) : (
-            <Text style={styles.inputValue}>{currentOrder.customer.phone}</Text>
+            <AppText style={styles.inputValue}>{currentOrder.customer.phone}</AppText>
           )}
         </View>
 
         <View style={styles.inputGroup}>
-          <Text style={styles.inputLabel}>Delivery Address</Text>
+          <AppText style={styles.inputLabel}>Delivery Address</AppText>
           {isEditing ? (
             <TextInput
               style={[styles.textInput, styles.textArea]}
@@ -299,7 +300,7 @@ const BagDetails = () => {
               numberOfLines={3}
             />
           ) : (
-            <Text style={styles.inputValue}>{currentOrder.address}</Text>
+            <AppText style={styles.inputValue}>{currentOrder.address}</AppText>
           )}
         </View>
       </View>
@@ -307,7 +308,7 @@ const BagDetails = () => {
       {/* Order Items */}
       <View style={styles.section}>
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Order Items</Text>
+          <AppText style={styles.sectionTitle}>Order Items</AppText>
           {isEditing && (
             <TouchableOpacity
               style={styles.addItemsButton}
@@ -318,7 +319,7 @@ const BagDetails = () => {
                 size={20}
                 color={tailwindColors.blue[600]}
               />
-              <Text style={styles.addItemsText}>Add Items</Text>
+              <AppText style={styles.addItemsText}>Add Items</AppText>
             </TouchableOpacity>
           )}
         </View>
@@ -326,10 +327,10 @@ const BagDetails = () => {
         {currentOrder.items.map((item) => (
           <View key={item.id} style={styles.itemRow}>
             <View style={styles.itemInfo}>
-              <Text style={styles.itemName}>{item.name}</Text>
-              <Text style={styles.itemPrice}>
+              <AppText style={styles.itemName}>{item.name}</AppText>
+              <AppText style={styles.itemPrice}>
                 ${item.price.toFixed(2)} each
-              </Text>
+              </AppText>
             </View>
             <View style={styles.quantityControls}>
               {isEditing && (
@@ -338,7 +339,7 @@ const BagDetails = () => {
                   onPress={() => updateItemQuantity(item.id, item.quantity - 1)}
                   disabled={item.quantity <= 0}
                 >
-                  <Text style={styles.quantityButtonText}>-</Text>
+                  <AppText style={styles.quantityButtonText}>-</AppText>
                 </TouchableOpacity>
               )}
               <Text style={styles.quantityText}>{item.quantity}x</Text>
@@ -347,7 +348,7 @@ const BagDetails = () => {
                   style={styles.quantityButton}
                   onPress={() => updateItemQuantity(item.id, item.quantity + 1)}
                 >
-                  <Text style={styles.quantityButtonText}>+</Text>
+                  <AppText style={styles.quantityButtonText}>+</AppText>
                 </TouchableOpacity>
               )}
               {isEditing && (

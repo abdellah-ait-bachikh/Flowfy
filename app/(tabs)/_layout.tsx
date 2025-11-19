@@ -1,3 +1,4 @@
+import AppText from "@/components/app/share/AppText";
 import Header from "@/components/app/share/Header";
 import LinearGradientCmp from "@/components/app/share/LinearGradientCmp";
 import { Text } from "@/components/ui/text";
@@ -29,12 +30,16 @@ export default function TabLayout() {
         appColors.white,
         appColors.white,
         appColors.white,
+        appColors.white,
+        appColors.white,
+        appColors.white,
       ]}
     >
-
       <Tabs
         initialRouteName="(home)"
         screenOptions={{
+          freezeOnBlur: false,
+unmountOnBlur: true,
           animation: "none",
           tabBarPosition: "bottom",
           tabBarActiveTintColor: primary,
@@ -67,6 +72,7 @@ export default function TabLayout() {
             name={item.name}
             options={{
               freezeOnBlur: false,
+
               title: item.label,
               tabBarItemStyle: {
                 borderRadius: 10,
@@ -106,7 +112,7 @@ export default function TabLayout() {
                 />
               ),
               tabBarLabel: ({ color, focused }) => (
-                <Text
+                <AppText
                   style={{
                     color: focused ? color : tailwindColors.gray[400],
                     fontSize: 10,
@@ -116,7 +122,7 @@ export default function TabLayout() {
                   ellipsizeMode="clip"
                 >
                   {t(`tabs.${item.label}`)}
-                </Text>
+                </AppText>
               ),
             }}
           />

@@ -12,6 +12,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import { tailwindColors, appColors } from "@/theme/colors";
+import AppText from "./AppText";
 
 interface BagItem {
   id: number;
@@ -395,31 +396,31 @@ const CurrentBag = () => {
                 </View>
 
                 <View style={styles.priceRow}>
-                  <Text style={styles.priceLabel}>Delivery Fee</Text>
-                  <Text style={styles.priceValue}>
+                  <AppText style={styles.priceLabel}>Delivery Fee</AppText>
+                  <AppText style={styles.priceValue}>
                     ${calculateDeliveryFee().toFixed(2)}
-                  </Text>
+                  </AppText>
                 </View>
 
                 <View style={styles.priceRow}>
-                  <Text style={styles.priceLabel}>Tax (8%)</Text>
-                  <Text style={styles.priceValue}>
+                  <AppText style={styles.priceLabel}>Tax (8%)</AppText>
+                  <AppText style={styles.priceValue}>
                     ${calculateTax().toFixed(2)}
-                  </Text>
+                  </AppText>
                 </View>
 
                 <View style={[styles.priceRow, styles.totalRow]}>
-                  <Text style={styles.totalLabel}>Total</Text>
-                  <Text style={styles.totalValue}>
+                  <AppText style={styles.totalLabel}>Total</AppText>
+                  <AppText style={styles.totalValue}>
                     ${calculateTotal().toFixed(2)}
-                  </Text>
+                  </AppText>
                 </View>
               </View>
 
               <TouchableOpacity style={styles.checkoutButton}>
-                <Text style={styles.checkoutButtonText}>
+                <AppText style={styles.checkoutButtonText}>
                   Proceed to Checkout
-                </Text>
+                </AppText>
               </TouchableOpacity>
             </Animated.View>
           )}

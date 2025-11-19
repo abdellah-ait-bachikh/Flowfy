@@ -1,10 +1,11 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import AppText from '@/components/app/share/AppText'
 
 const restaurants = () => {
   return (
     <View>
-      <Text>restaurants</Text>
+      <AppText>restaurants</AppText>
     </View>
   )
 }

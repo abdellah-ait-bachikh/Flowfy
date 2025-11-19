@@ -15,6 +15,7 @@ import {
   FONT_SIZE_NORMAL,
 } from "@/theme/globals";
 import { FontAwesome5 } from "@expo/vector-icons";
+import AppText from "@/components/app/share/AppText";
 
 // Static notifications data grouped by day
 const notificationsData = [
@@ -184,15 +185,15 @@ const Notifications = () => {
         )}
 
         <View style={styles.notificationContent}>
-          <Text style={styles.notificationTitle}>
+          <AppText style={styles.notificationTitle}>
             {item.title}
-          </Text>
-          <Text style={styles.notificationDescription}>
+          </AppText>
+          <AppText style={styles.notificationDescription}>
             {item.description}
-          </Text>
-          <Text style={styles.notificationTime}>
+          </AppText>
+          <AppText style={styles.notificationTime}>
             {item.time}
-          </Text>
+          </AppText>
         </View>
 
         {/* Trash icon for deletion */}
@@ -210,7 +211,7 @@ const Notifications = () => {
   const renderSectionHeader = ({ section }: { section: any }) => (
     <View style={styles.dayHeader}>
       <View style={styles.borderLine} />
-      <Text style={styles.dayHeaderText}>{section.day}</Text>
+      <AppText style={styles.dayHeaderText}>{section.day}</AppText>
       <View style={styles.borderLine} />
     </View>
   );
@@ -218,10 +219,10 @@ const Notifications = () => {
   // Empty state component
   const renderEmptyState = () => (
     <View style={styles.emptyState}>
-      <Text style={styles.emptyStateTitle}>No Notifications</Text>
-      <Text style={styles.emptyStateText}>
+      <AppText style={styles.emptyStateTitle}>No Notifications</AppText>
+      <AppText style={styles.emptyStateText}>
         You're all caught up! New notifications will appear here.
-      </Text>
+      </AppText>
     </View>
   );
 
@@ -229,10 +230,10 @@ const Notifications = () => {
     <View style={styles.container}>
       {/* Header with Clear All button */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Notifications</Text>
+        <AppText style={styles.headerTitle}>Notifications</AppText>
         {notifications.length > 0 && (
           <TouchableOpacity style={styles.clearButton} onPress={handleClearAll}>
-            <Text style={styles.clearButtonText}>Clear All</Text>
+            <AppText style={styles.clearButtonText}>Clear All</AppText>
           </TouchableOpacity>
         )}
       </View>
@@ -241,7 +242,7 @@ const Notifications = () => {
       {stickyHeader && notifications.length > 0 && (
         <View style={styles.stickyHeader}>
           <View style={styles.borderLine} />
-          <Text style={styles.stickyHeaderText}>{stickyHeader}</Text>
+          <AppText style={styles.stickyHeaderText}>{stickyHeader}</AppText>
           <View style={styles.borderLine} />
         </View>
       )}

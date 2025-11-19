@@ -39,13 +39,12 @@ function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeProvider>
-        <ToastProvider  >
+        <ToastProvider>
           <NotificationProvider>
             <Provider store={store}>
               <Stack
                 screenOptions={{
                   freezeOnBlur: false,
-
                   headerShown: false,
                   animation: "none",
                   contentStyle: { flex: 1 },

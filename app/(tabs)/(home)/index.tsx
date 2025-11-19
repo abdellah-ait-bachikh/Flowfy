@@ -5,10 +5,10 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { SearchBar } from "@/components/ui/searchbar";
 import { appColors, tailwindColors } from "@/theme/colors";
-import { useRouter } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
 import Categories from "../../../components/app/screens/home/Categories";
 import RestaurantSlider from "../../../components/app/screens/home/RestorantSlider";
 import RankingFood from "../../../components/app/screens/home/RankingFood";
@@ -21,14 +21,23 @@ const index = () => {
   const { t } = useTranslation();
 
   const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    async function waitLoading() {
-      setLoading(true);
-      await new Promise((res) => setTimeout(res, 1000));
-      setLoading(false);
-    }
-    waitLoading();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      console.log("----------------------screen In-------------------------");
+
+      async function waitLoading() {
+        setLoading(true);
+        await new Promise((res) => setTimeout(res, 1000));
+        setLoading(false);
+      }
+      waitLoading();
+      return () => {
+        console.log(
+          "----------------------screen OUT-------------------------"
+        );
+      };
+    }, [])
+  );
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
       <View></View>

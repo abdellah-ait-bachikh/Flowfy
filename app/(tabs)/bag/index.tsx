@@ -18,13 +18,26 @@ import {
 import { Ionicons, Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useRouter } from "expo-router";
+import AppText from "@/components/app/share/AppText";
 
-interface OrderItem {
+interface BaseOrderItem {
   id: number;
   name: string;
+  price?: number;
+}
+
+interface QuantityOrderItem extends BaseOrderItem {
+  type: "quantity";
   quantity: number;
   price: number;
 }
+
+interface WeightOrderItem extends BaseOrderItem {
+  type: "weight";
+  weight: number;
+}
+
+type OrderItem = QuantityOrderItem | WeightOrderItem;
 
 interface BaseOrder {
   id: number;
@@ -74,12 +87,13 @@ export const bagData = [
         orderNumber: "ORD-7842-2025",
         status: "preparing",
         statusText: "Preparing your order",
-        restaurant: "Pizza Palace",
-        restaurantLogo: "🍕",
+        restaurant: "Fresh Market",
+        restaurantLogo: "🛒",
         items: [
-          { id: 1, name: "Margherita Pizza", quantity: 1, price: 12.99 },
-          { id: 2, name: "Garlic Bread", quantity: 2, price: 4.99 },
-          { id: 3, name: "Coca Cola", quantity: 1, price: 2.49 },
+          { id: 1, name: "Margherita Pizza", type: "quantity", quantity: 1, price: 12.99 },
+          { id: 2, name: "Fresh Apples", type: "weight", weight: 1.5 },
+          { id: 3, name: "Coca Cola", type: "quantity", quantity: 1, price: 2.49 },
+          { id: 4, name: "Tomatoes", type: "weight", weight: 0.75 },
         ],
         total: 25.46,
         orderTime: "10:30 AM",
@@ -100,14 +114,14 @@ export const bagData = [
         orderNumber: "ORD-9153-2025",
         status: "on_the_way",
         statusText: "On the way",
-        restaurant: "Burger Hub",
+        restaurant: "Burger King",
         restaurantLogo: "🍔",
         items: [
-          { id: 1, name: "Double Cheeseburger", quantity: 1, price: 8.99 },
-          { id: 2, name: "French Fries", quantity: 1, price: 3.49 },
-          { id: 3, name: "Chocolate Shake", quantity: 1, price: 4.99 },
+          { id: 1, name: "Whopper Burger", type: "quantity", quantity: 2, price: 8.99 },
+          { id: 2, name: "French Fries", type: "quantity", quantity: 1, price: 3.49 },
+          { id: 3, name: "Chocolate Shake", type: "quantity", quantity: 1, price: 4.99 },
         ],
-        total: 17.47,
+        total: 26.46,
         orderTime: "09:15 AM",
         estimatedDelivery: "10:00 AM",
         address: "123 Main St, Apartment 4B",
@@ -131,12 +145,14 @@ export const bagData = [
         orderNumber: "ORD-6291-2025",
         status: "delivered",
         statusText: "Delivered",
-        restaurant: "Sushi Express",
-        restaurantLogo: "🍣",
+        restaurant: "Mixed Basket",
+        restaurantLogo: "🛍️",
         items: [
-          { id: 1, name: "California Roll", quantity: 2, price: 6.99 },
-          { id: 2, name: "Salmon Nigiri", quantity: 4, price: 3.99 },
-          { id: 3, name: "Miso Soup", quantity: 1, price: 2.99 },
+          { id: 1, name: "Chicken Breast", type: "weight", weight: 1.2 },
+          { id: 2, name: "Onions", type: "weight", weight: 1.0 },
+          { id: 3, name: "Energy Drink", type: "quantity", quantity: 1, price: 2.99 },
+          { id: 4, name: "Bell Peppers", type: "weight", weight: 0.8 },
+          { id: 5, name: "Chips", type: "quantity", quantity: 3, price: 1.49 },
         ],
         total: 27.93,
         orderTime: "07:20 PM",
@@ -147,30 +163,121 @@ export const bagData = [
           phone: "+1122334455",
         },
       },
-    ],
-  },
-  {
-    day: "2025 Saturday 07/28",
-    data: [
       {
         id: 4,
         orderNumber: "ORD-4378-2025",
         status: "delivered",
         statusText: "Delivered",
-        restaurant: "Taco Fiesta",
-        restaurantLogo: "🌮",
+        restaurant: "Pizza Hut",
+        restaurantLogo: "🍕",
         items: [
-          { id: 1, name: "Beef Tacos", quantity: 3, price: 3.49 },
-          { id: 2, name: "Guacamole", quantity: 1, price: 2.99 },
-          { id: 3, name: "Churros", quantity: 2, price: 4.99 },
+          { id: 1, name: "Pepperoni Pizza", type: "quantity", quantity: 1, price: 14.99 },
+          { id: 2, name: "Garlic Bread", type: "quantity", quantity: 2, price: 5.99 },
+          { id: 3, name: "Coca Cola", type: "quantity", quantity: 2, price: 2.49 },
         ],
-        total: 20.44,
+        total: 31.95,
         orderTime: "06:45 PM",
         deliveredTime: "07:30 PM",
         address: "123 Main St, Apartment 4B",
         customer: {
           fullName: "Emily Davis",
           phone: "+1567890123",
+        },
+      },
+    ],
+  },
+  {
+    day: "2025 Saturday 07/28",
+    data: [
+      {
+        id: 5,
+        orderNumber: "ORD-5567-2025",
+        status: "delivered",
+        statusText: "Delivered",
+        restaurant: "Farmers Market",
+        restaurantLogo: "🌾",
+        items: [
+          { id: 1, name: "Strawberries", type: "weight", weight: 1.0 },
+          { id: 2, name: "Blueberries", type: "weight", weight: 0.5 },
+          { id: 3, name: "Raspberries", type: "weight", weight: 0.3 },
+          { id: 4, name: "Mixed Greens", type: "weight", weight: 0.4 },
+        ],
+        total: 32.15,
+        orderTime: "02:30 PM",
+        deliveredTime: "03:15 PM",
+        address: "123 Main St, Apartment 4B",
+        customer: {
+          fullName: "David Wilson",
+          phone: "+1678901234",
+        },
+      },
+      {
+        id: 6,
+        orderNumber: "ORD-7789-2025",
+        status: "delivered",
+        statusText: "Delivered",
+        restaurant: "KFC",
+        restaurantLogo: "🍗",
+        items: [
+          { id: 1, name: "Bucket Chicken", type: "quantity", quantity: 1, price: 19.99 },
+          { id: 2, name: "Coleslaw", type: "quantity", quantity: 2, price: 2.99 },
+          { id: 3, name: "Biscuits", type: "quantity", quantity: 4, price: 1.49 },
+        ],
+        total: 29.93,
+        orderTime: "05:20 PM",
+        deliveredTime: "06:10 PM",
+        address: "123 Main St, Apartment 4B",
+        customer: {
+          fullName: "Lisa Brown",
+          phone: "+1789012345",
+        },
+      },
+    ],
+  },
+  {
+    day: "2025 Friday 07/27",
+    data: [
+      {
+        id: 7,
+        orderNumber: "ORD-8890-2025",
+        status: "delivered",
+        statusText: "Delivered",
+        restaurant: "Organic Groceries",
+        restaurantLogo: "🥦",
+        items: [
+          { id: 1, name: "Bananas", type: "weight", weight: 2.0 },
+          { id: 2, name: "Carrots", type: "weight", weight: 0.5 },
+          { id: 3, name: "Potatoes", type: "weight", weight: 3.0 },
+          { id: 4, name: "French Bread", type: "quantity", quantity: 2, price: 3.99 },
+        ],
+        total: 17.47,
+        orderTime: "11:30 AM",
+        deliveredTime: "12:15 PM",
+        address: "123 Main St, Apartment 4B",
+        customer: {
+          fullName: "Alex Turner",
+          phone: "+1456789012",
+        },
+      },
+      {
+        id: 8,
+        orderNumber: "ORD-9921-2025",
+        status: "delivered",
+        statusText: "Delivered",
+        restaurant: "Starbucks",
+        restaurantLogo: "☕",
+        items: [
+          { id: 1, name: "Caramel Macchiato", type: "quantity", quantity: 1, price: 5.45 },
+          { id: 2, name: "Blueberry Muffin", type: "quantity", quantity: 2, price: 3.25 },
+          { id: 3, name: "Iced Coffee", type: "quantity", quantity: 1, price: 4.75 },
+        ],
+        total: 16.70,
+        orderTime: "08:15 AM",
+        deliveredTime: "08:45 AM",
+        address: "123 Main St, Apartment 4B",
+        customer: {
+          fullName: "Maria Garcia",
+          phone: "+1345678901",
         },
       },
     ],
@@ -209,6 +316,49 @@ const Bag = () => {
     }
   };
 
+  const formatItemDisplay = (item: OrderItem) => {
+    if (item.type === "quantity") {
+      return `${item.quantity}x`;
+    } else {
+      return `${item.weight}kg`;
+    }
+  };
+
+  const formatItemPrice = (item: OrderItem) => {
+    if (item.type === "quantity") {
+      return `$${item.price.toFixed(2)}`;
+    } else {
+      return "Price at checkout";
+    }
+  };
+
+  const hasWeightItems = (items: OrderItem[]) => {
+    return items.some(item => item.type === "weight");
+  };
+
+  const getTotalDescription = (items: OrderItem[]) => {
+    const hasWeight = hasWeightItems(items);
+    const hasQuantity = items.some(item => item.type === "quantity");
+    
+    if (hasWeight && hasQuantity) {
+      return "Includes fixed prices + weight-based calculations";
+    } else if (hasWeight) {
+      return "Total based on actual weight at checkout";
+    } else {
+      return "All items with fixed prices";
+    }
+  };
+
+  const getTotalStyle = (items: OrderItem[]) => {
+    const hasWeight = hasWeightItems(items);
+    
+    if (hasWeight) {
+      return styles.totalNoteWeight;
+    } else {
+      return styles.totalNoteFixed;
+    }
+  };
+
   const handleReorder = (orderId: number) => {
     console.log("Reorder order:", orderId);
   };
@@ -220,7 +370,6 @@ const Bag = () => {
   };
 
   const handleViewDetails = (order: Order) => {
-   
     router.push({ pathname: "/(tabs)/bag/[id]", params: { id: order.id } });
   };
 
@@ -245,141 +394,175 @@ const Bag = () => {
     }
   };
 
-  // Render individual order item
-  const renderOrderItem = ({ item }: { item: any }) => (
-    <View style={styles.orderCard}>
-      {/* Order Header */}
-      <View style={styles.orderHeader}>
-        <View style={styles.bagLogo}>
-          <Feather
-            name="shopping-bag"
-            color={tailwindColors.neutral[500]}
-            size={28}
-          />
-          <View>
-            <Text style={styles.orderNumber}>{item.orderNumber}</Text>
-            <Text style={styles.orderTime}>{item.orderTime}</Text>
+  const renderOrderItem = ({ item }: { item: any }) => {
+    const hasWeight = hasWeightItems(item.items);
+    
+    return (
+      <View style={styles.orderCard}>
+        <View style={styles.orderHeader}>
+          <View style={styles.bagLogo}>
+            <Feather
+              name="shopping-bag"
+              color={tailwindColors.neutral[500]}
+              size={28}
+            />
+            <View>
+              <AppText style={styles.orderNumber}>{item.orderNumber}</AppText>
+              <AppText style={styles.orderTime}>{item.orderTime}</AppText>
+            </View>
+          </View>
+          <View
+            style={[
+              styles.statusBadge,
+              { backgroundColor: getStatusColor(item.status) },
+            ]}
+          >
+            <AppText style={styles.statusIcon}>{getStatusIcon(item.status)}</AppText>
+            <AppText style={styles.statusText}>{item.statusText}</AppText>
           </View>
         </View>
-        <View
-          style={[
-            styles.statusBadge,
-            { backgroundColor: getStatusColor(item.status) },
-          ]}
-        >
-          <Text style={styles.statusIcon}>{getStatusIcon(item.status)}</Text>
-          <Text style={styles.statusText}>{item.statusText}</Text>
+
+        <View style={styles.itemsContainer}>
+          {item.items.map((orderItem: OrderItem) => (
+            <View key={orderItem.id} style={styles.itemRow}>
+              <View style={styles.itemNameContainer}>
+                <AppText style={styles.itemName}>{orderItem.name}</AppText>
+                {orderItem.type === "weight" && (
+                  <AppText style={styles.variablePriceNote}>
+                    • Price calculated by weight
+                  </AppText>
+                )}
+              </View>
+              
+              <View style={styles.quantityWeightContainer}>
+                <View style={[
+                  styles.quantityWeightBadge,
+                  orderItem.type === "weight" ? styles.weightBadge : styles.quantityBadge
+                ]}>
+                  <AppText style={styles.quantityWeightText}>
+                    {formatItemDisplay(orderItem)}
+                  </AppText>
+                </View>
+              </View>
+
+              <AppText style={[
+                styles.itemPrice,
+                orderItem.type === "weight" && styles.variablePriceText
+              ]}>
+                {formatItemPrice(orderItem)}
+              </AppText>
+            </View>
+          ))}
         </View>
-      </View>
 
-      {/* Order Items */}
-      <View style={styles.itemsContainer}>
-        {item.items.map((orderItem: any) => (
-          <View key={orderItem.id} style={styles.itemRow}>
-            <Text style={styles.itemName}>
-              {orderItem.quantity}x {orderItem.name}
-            </Text>
-            <Text style={styles.itemPrice}>${orderItem.price.toFixed(2)}</Text>
-          </View>
-        ))}
-      </View>
+        <View style={styles.orderDetails}>
+          {item.status === "on_the_way" && (
+            <View style={styles.detailRow}>
+              <AppText style={styles.detailLabel}>Delivery Person:</AppText>
+              <AppText style={styles.detailValue}>{item.deliveryPerson.name}</AppText>
+            </View>
+          )}
 
-      {/* Order Details */}
-      <View style={styles.orderDetails}>
-        {item.status === "on_the_way" && (
           <View style={styles.detailRow}>
-            <Text style={styles.detailLabel}>Delivery Person:</Text>
-            <Text style={styles.detailValue}>{item.deliveryPerson.name}</Text>
+            <AppText style={styles.detailLabel}>Address:</AppText>
+            <AppText style={styles.detailValue}>{item.address}</AppText>
           </View>
-        )}
 
-        <View style={styles.detailRow}>
-          <Text style={styles.detailLabel}>Address:</Text>
-          <Text style={styles.detailValue}>{item.address}</Text>
+          <View style={styles.detailRow}>
+            <AppText style={styles.detailLabel}>Total:</AppText>
+            <View style={styles.totalContainer}>
+              <AppText style={styles.totalPrice}>${item.total.toFixed(2)}</AppText>
+              <View style={[
+                styles.totalNoteContainer,
+                hasWeight ? styles.totalNoteWeightContainer : styles.totalNoteFixedContainer
+              ]}>
+                <Ionicons 
+                  name={hasWeight ? "scale-outline" : "pricetag-outline"} 
+                  size={12} 
+                  color={hasWeight ? tailwindColors.orange[500] : tailwindColors.green[500]} 
+                />
+                <AppText style={getTotalStyle(item.items)}>
+                  {getTotalDescription(item.items)}
+                </AppText>
+              </View>
+            </View>
+          </View>
         </View>
 
-        <View style={styles.detailRow}>
-          <Text style={styles.detailLabel}>Total:</Text>
-          <Text style={styles.totalPrice}>${item.total.toFixed(2)}</Text>
+        <View style={styles.actionButtons}>
+          {item.status === "delivered" && (
+            <TouchableOpacity
+              style={[styles.actionButton, styles.detailsButton]}
+              onPress={() => handleViewDetails(item)}
+            >
+              <Ionicons
+                name="document-text-outline"
+                size={16}
+                color={tailwindColors.gray[600]}
+              />
+              <AppText
+                style={[
+                  styles.actionButtonText,
+                  { color: tailwindColors.gray[600] },
+                ]}
+              >
+                View Details
+              </AppText>
+            </TouchableOpacity>
+          )}
+
+          {item.status === "delivered" ? (
+            <TouchableOpacity
+              style={[styles.actionButton, styles.reorderButton]}
+              onPress={() => handleReorder(item.id)}
+            >
+              <Ionicons
+                name="refresh"
+                size={16}
+                color={tailwindColors.green[600]}
+              />
+              <AppText
+                style={[
+                  styles.actionButtonText,
+                  { color: tailwindColors.green[600] },
+                ]}
+              >
+                Reorder
+              </AppText>
+            </TouchableOpacity>
+          ) : (
+            item.deliveryPerson?.phone && (
+              <TouchableOpacity
+                style={[styles.actionButton, styles.callButton]}
+                onPress={() =>
+                  handleCallDeliveryPerson(item.deliveryPerson.phone)
+                }
+              >
+                <Ionicons
+                  name="call"
+                  size={16}
+                  color={tailwindColors.blue[600]}
+                />
+                <AppText
+                  style={[
+                    styles.actionButtonText,
+                    { color: tailwindColors.blue[600] },
+                  ]}
+                >
+                  Call Delivery
+                </AppText>
+              </TouchableOpacity>
+            )
+          )}
         </View>
       </View>
+    );
+  };
 
-      {/* Action Buttons */}
-<View style={styles.actionButtons}>
-  {/* Only show View Details for delivered orders */}
-  {item.status === "delivered" && (
-    <TouchableOpacity
-      style={[styles.actionButton, styles.detailsButton]}
-      onPress={() => handleViewDetails(item)}
-    >
-      <Ionicons
-        name="document-text-outline"
-        size={16}
-        color={tailwindColors.gray[600]}
-      />
-      <Text
-        style={[
-          styles.actionButtonText,
-          { color: tailwindColors.gray[600] },
-        ]}
-      >
-        View Details
-      </Text>
-    </TouchableOpacity>
-  )}
-
-  {item.status === "delivered" ? (
-    <TouchableOpacity
-      style={[styles.actionButton, styles.reorderButton]}
-      onPress={() => handleReorder(item.id)}
-    >
-      <Ionicons
-        name="refresh"
-        size={16}
-        color={tailwindColors.green[600]}
-      />
-      <Text
-        style={[
-          styles.actionButtonText,
-          { color: tailwindColors.green[600] },
-        ]}
-      >
-        Reorder
-      </Text>
-    </TouchableOpacity>
-  ) : (
-    item.deliveryPerson?.phone && (
-      <TouchableOpacity
-        style={[styles.actionButton, styles.callButton]}
-        onPress={() =>
-          handleCallDeliveryPerson(item.deliveryPerson.phone)
-        }
-      >
-        <Ionicons
-          name="call"
-          size={16}
-          color={tailwindColors.blue[600]}
-        />
-        <Text
-          style={[
-            styles.actionButtonText,
-            { color: tailwindColors.blue[600] },
-          ]}
-        >
-          Call Delivery
-        </Text>
-      </TouchableOpacity>
-    )
-  )}
-</View>
-    </View>
-  );
-
-  // Render section header
   const renderSectionHeader = ({ section }: { section: any }) => (
     <View style={styles.dayHeader}>
       <View style={styles.borderLine} />
-      <Text style={styles.dayHeaderText}>{section.day}</Text>
+      <AppText style={styles.dayHeaderText}>{section.day}</AppText>
       <View style={styles.borderLine} />
     </View>
   );
@@ -396,19 +579,17 @@ const Bag = () => {
 
   return (
     <View style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>My Orders</Text>
-        <Text style={styles.orderCount}>
+        <AppText style={styles.headerTitle}>My Orders</AppText>
+        <AppText style={styles.orderCount}>
           {activeOrders.length} Active, {pastOrders.length} Delivered
-        </Text>
+        </AppText>
       </View>
 
-      {/* Sticky header */}
       {stickyHeader && orders.length > 0 && (
         <View style={styles.stickyHeader}>
           <View style={styles.borderLine} />
-          <Text style={styles.stickyHeaderText}>{stickyHeader}</Text>
+          <AppText style={styles.stickyHeaderText}>{stickyHeader}</AppText>
           <View style={styles.borderLine} />
         </View>
       )}
@@ -425,13 +606,29 @@ const Bag = () => {
         contentContainerStyle={styles.sectionListContent}
         ListEmptyComponent={
           <View style={styles.emptyState}>
-            <Text style={styles.emptyStateTitle}>No Orders Yet</Text>
-            <Text style={styles.emptyStateText}>
+            <AppText style={styles.emptyStateTitle}>No Orders Yet</AppText>
+            <AppText style={styles.emptyStateText}>
               Your orders will appear here once you place an order.
-            </Text>
+            </AppText>
           </View>
         }
         stickySectionHeadersEnabled={false}
+       ListHeaderComponent={
+  <View style={styles.pricingInfoCard}>
+    <View style={styles.pricingInfoContent}>
+      <Ionicons name="information-circle-outline" size={20} color={tailwindColors.blue[500]} />
+      <View style={styles.pricingInfoText}>
+        <AppText style={styles.pricingInfoTitle}>About Weight-Based Items</AppText>
+        <AppText style={styles.pricingInfoDescription}>
+          Items sold by weight (fruits, vegetables, meat) have variable pricing. The final price is calculated when your order is prepared based on the actual weight. You'll see the exact total when the delivery arrives.
+          {"\n\n"}
+          If your order contains only fixed-price items, you'll see the exact total price that you'll pay upfront.
+        </AppText>
+      </View>
+    </View>
+  </View>
+
+        }
       />
     </View>
   );
@@ -458,6 +655,36 @@ const styles = StyleSheet.create({
     color: tailwindColors.gray[500],
     marginTop: 4,
   },
+  pricingInfoCard: {
+    backgroundColor: tailwindColors.blue[50],
+    borderRadius: 12,
+    padding: 16,
+    marginHorizontal: 16,
+    marginTop: 45,
+    marginBottom: 8,
+    borderWidth: 1,
+    borderColor: tailwindColors.blue[200],
+  },
+  pricingInfoContent: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 12,
+  },
+  pricingInfoText: {
+    flex: 1,
+  },
+  pricingInfoTitle: {
+    fontSize: FONT_SIZE_SMALL,
+    fontFamily: fonts["Montserrat-SemiBold"],
+    color: tailwindColors.blue[800],
+    marginBottom: 4,
+  },
+  pricingInfoDescription: {
+    fontSize: FONT_SIZE_EXTRA_SMALL,
+    fontFamily: fonts["Montserrat-Medium"],
+    color: tailwindColors.blue[700],
+    lineHeight: 16,
+  },
   stickyHeader: {
     flexDirection: "row",
     alignItems: "center",
@@ -479,9 +706,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 12,
   },
   sectionListContent: {
-    paddingHorizontal: 16,
     flexGrow: 1,
-    paddingTop: 70,
   },
   dayHeader: {
     flexDirection: "row",
@@ -506,6 +731,7 @@ const styles = StyleSheet.create({
     backgroundColor: appColors.white,
     borderRadius: 16,
     padding: 16,
+    marginHorizontal: 16,
     marginBottom: 12,
     borderWidth: 1,
     borderColor: tailwindColors.gray[200],
@@ -558,18 +784,61 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 6,
+    marginBottom: 10,
+    paddingVertical: 4,
+  },
+  itemNameContainer: {
+    flex: 1,
+    marginRight: 8,
   },
   itemName: {
     fontSize: FONT_SIZE_EXTRA_SMALL,
     fontFamily: fonts["Montserrat-Medium"],
     color: tailwindColors.gray[700],
-    flex: 1,
+  },
+  variablePriceNote: {
+    fontSize: 9,
+    fontFamily: fonts["Montserrat-Medium"],
+    color: tailwindColors.orange[500],
+    marginTop: 2,
+  },
+  quantityWeightContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginHorizontal: 8,
+  },
+  quantityWeightBadge: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 8,
+    minWidth: 50,
+    alignItems: "center",
+  },
+  quantityBadge: {
+    backgroundColor: tailwindColors.blue[50],
+    borderWidth: 1,
+    borderColor: tailwindColors.blue[200],
+  },
+  weightBadge: {
+    backgroundColor: tailwindColors.orange[50],
+    borderWidth: 1,
+    borderColor: tailwindColors.orange[200],
+  },
+  quantityWeightText: {
+    fontSize: 10,
+    fontFamily: fonts["Montserrat-SemiBold"],
+    color: tailwindColors.gray[700],
   },
   itemPrice: {
     fontSize: FONT_SIZE_EXTRA_SMALL,
     fontFamily: fonts["Montserrat-SemiBold"],
     color: tailwindColors.gray[800],
+    textAlign: "right",
+    minWidth: 80,
+  },
+  variablePriceText: {
+    color: tailwindColors.orange[500],
+    fontStyle: "italic",
   },
   orderDetails: {
     borderTopWidth: 1,
@@ -596,10 +865,42 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 8,
   },
+  totalContainer: {
+    alignItems: "flex-end",
+  },
   totalPrice: {
     fontSize: FONT_SIZE_SMALL,
     fontFamily: fonts["Montserrat-Bold"],
     color: tailwindColors.green[600],
+  },
+  totalNoteContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 4,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 6,
+    gap: 4,
+  },
+  totalNoteFixedContainer: {
+    backgroundColor: tailwindColors.green[50],
+    borderWidth: 1,
+    borderColor: tailwindColors.green[200],
+  },
+  totalNoteWeightContainer: {
+    backgroundColor: tailwindColors.orange[50],
+    borderWidth: 1,
+    borderColor: tailwindColors.orange[200],
+  },
+  totalNoteFixed: {
+    fontSize: 9,
+    fontFamily: fonts["Montserrat-SemiBold"],
+    color: tailwindColors.green[700],
+  },
+  totalNoteWeight: {
+    fontSize: 9,
+    fontFamily: fonts["Montserrat-SemiBold"],
+    color: tailwindColors.orange[700],
   },
   actionButtons: {
     flexDirection: "row",

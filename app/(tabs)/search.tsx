@@ -4,6 +4,7 @@ import { SearchBar } from "@/components/ui/searchbar";
 import { appColors, tailwindColors } from "@/theme/colors";
 import { fonts } from "@/lib/const";
 import { Spinner } from "@/components/ui/spinner";
+import AppText from "@/components/app/share/AppText";
 
 const Search = () => {
   const [isSearchLoading, setIsSearchLoading] = useState(false);
@@ -166,46 +167,46 @@ const Search = () => {
             {isSearchLoading ? (
               <View style={styles.loadingContainer}>
                 <Spinner size="sm" />
-                <Text style={styles.loadingText}>
+                <AppText style={styles.loadingText}>
                   {searchQuery ? `Searching for "${searchQuery}"...` : "Searching..."}
-                </Text>
+                </AppText>
               </View>
             ) : suggestions.length > 0 ? (
               <>
-                <Text style={styles.suggestionsTitle}>
+                <AppText style={styles.suggestionsTitle}>
                   Found {suggestions.length} suggestion{suggestions.length !== 1 ? 's' : ''} for "{searchQuery}"
-                </Text>
+                </AppText>
                 {suggestions.map((suggestion, index) => (
                   <TouchableOpacity
                     key={index}
                     style={styles.suggestionItem}
                     onPress={() => handleSuggestionPress(suggestion)}
                   >
-                    <Text style={styles.suggestionText}>{suggestion}</Text>
+                    <AppText style={styles.suggestionText}>{suggestion}</AppText>
                   </TouchableOpacity>
                 ))}
               </>
             ) : searchQuery.length > 0 ? (
-              <Text style={styles.noResultsText}>
+              <AppText style={styles.noResultsText}>
                 No results found for "{searchQuery}"
-              </Text>
+              </AppText>
             ) : null}
           </View>
         )}
 
         {/* Demo instructions */}
-        {!showSuggestions && !isSearchLoading && searchQuery === "" && (
-          <View style={styles.demoInstructions}>
-            <Text style={styles.instructionsTitle}>Demo Instructions:</Text>
-            <Text style={styles.instructionsText}>
-              • Type "pizza", "burger", or "sushi" to see suggestions{"\n"}
-              • Type "abc" to test no results state{"\n"}
-              • Wait 0.8 seconds after typing to see results{"\n"}
-              • Results come from simulated backend (1s delay){"\n"}
-              • Tap any suggestion to select it
-            </Text>
-          </View>
-        )}
+       {!showSuggestions && !isSearchLoading && searchQuery === "" && (
+  <View style={styles.demoInstructions}>
+    <AppText style={styles.instructionsTitle}>Search Tips:</AppText>
+    <AppText style={styles.instructionsText}>
+      • Search for any food items like pizza, burger, or sushi{"\n"}
+      • Browse through suggestions as you type{"\n"}
+      • Tap any suggestion to select it{"\n"}
+      • Feel free to search anything you're craving!{"\n"}
+      • We'll help you find the perfect meal
+    </AppText>
+  </View>
+)}
       </View>
     </ScrollView>
   );
@@ -290,24 +291,24 @@ const styles = StyleSheet.create({
     textAlign: "center",
     paddingVertical: 16,
   },
-  demoInstructions: {
-    marginTop: 24,
-    padding: 16,
-    backgroundColor: tailwindColors.amber[50],
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: tailwindColors.amber[200],
-  },
-  instructionsTitle: {
-    fontFamily: fonts["Montserrat-SemiBold"],
-    fontSize: 14,
-    color: tailwindColors.amber[800],
-    marginBottom: 8,
-  },
-  instructionsText: {
-    fontFamily: fonts["Montserrat-Medium"],
-    fontSize: 12,
-    color: tailwindColors.amber[700],
-    lineHeight: 18,
-  },
+ demoInstructions: {
+  marginTop: 24,
+  padding: 16,
+  backgroundColor: tailwindColors.blue[50],
+  borderRadius: 12,
+  borderWidth: 1,
+  borderColor: tailwindColors.blue[200],
+},
+instructionsTitle: {
+  fontFamily: fonts["Montserrat-SemiBold"],
+  fontSize: 16,
+  color: tailwindColors.blue[800],
+  marginBottom: 8,
+},
+instructionsText: {
+  fontFamily: fonts["Montserrat-Medium"],
+  fontSize: 14,
+  color: tailwindColors.blue[700],
+  lineHeight: 20,
+},
 });
